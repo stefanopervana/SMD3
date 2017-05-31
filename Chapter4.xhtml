@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <title>Dotepub.com</title>
+  <link href="../../../1/OEBPS/styles/dotepub.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+    <div class="" data-original-filename="3_tech_fundamentals.asciidoc345094" id="_the_web98">
+
+    <div class="titlepage">
+
+      <div>
+
+    
+         <h1 class="title">Chapter 4. Setup</h1>
+
+      </div>
+
+    </div>
+  </div>
+
+  <p id="getting_set_up_" class="">Getting set up with D3 is pretty straightforward—a simple matter of downloading the latest version, creating an empty page in which to write your code, and finally setting up a local web server.<a id="id500605" class="indexterm" href=""></a></p>
+  <p style="font-style: italic;">Conseguir crear con D3 es bastante sencillo, una simple cuestión de descargar la última versión, abrir una página en blanco en la que escribir el código, y, finalmente, la configurar un servidor web local.</p>
+
+
+
+  <div class="" data-original-filename="4_setup.asciidoc" id="_downloading_d3">
+
+    <p id="start_by_creati">Start by creating a new folder for your project. Call it whatever you like, but maybe something like <span class="emphasis"><em>project-folder</em></span>.</p>
+<p style="font-style: italic;">Comience por crear una nueva carpeta para su proyecto. Llámelo como quiera, pero tal vez algo como proyecto-carpeta.</p>
+    <p id="within_that_fol">Within that folder, I recommend creating a subfolder called <span class="emphasis"><em>d3</em></span>. Then download the latest version of D3 into that subfolder. <a class="ulink" href="http://d3js.org/d3.v3.zip" target="_top">Download the latest version of D3 as a ZIP file</a>, and then decompress the ZIP file. As of this writing, the current version of D3 is 3.0.6.</p>
+<p style="font-style: italic;">Dentro de esa carpeta, recomiendo crear una subcarpeta denominada D3. A continuación, descargar la última versión de D3 en esa subcarpeta. Descargue la última versión de D3 como un archivo ZIP, y luego descomprima el archivo ZIP. Al escribir estas líneas, la versión actual de D3 es 3.0.6.</p>
+    <p id="d_is_also_prov">D3 is also provided in a “minified” version, <a class="ulink" href="http://d3js.org/d3.v3.min.js" target="_top"><span class="emphasis"><em>d3.v3.min.js</em></span></a>, from which whitespace has been removed for smaller file sizes and faster load times. The functionality is the same, but typically you’d use the regular version while working on a project (for friendlier debugging), and then switch to the minified version once you’ve launched the project publicly (for optimized load times). The choice is up to you, but in this book, I use the standard version.</p>
+<p style="font-style: italic;">D3 también se proporciona en un "minified" versión, d3.v3.min.js, de la que los espacios en blanco se ha eliminado archivos más pequeños y tiempos de carga más rápidos. La funcionalidad es la misma, pero por lo general tendrá que utilizar la versión normal mientras se trabaja en un proyecto (para la depuración más amigable), y luego cambiar a la versión miniaturizada una vez que se ha puesto en marcha el proyecto públicamente (para los tiempos de carga optimizadas). La elección depende de usted, pero en este libro, yo uso la versión estándar.</p>
+
+    <p id="a_third_option_">A third option is to download the entire D3 repository, which gives you not just the JavaScript files, but also all of the component source code. You can <a class="ulink" href="https://github.com/mbostock/d3" target="_top">browse the repository contents</a> first, or just <a class="ulink" href="https://github.com/mbostock/d3/zipball/master" target="_top">download the whole thing as a compressed ZIP file</a>. Of course, once you’ve downloaded everything, make a copy of the file <span class="emphasis"><em>d3.v3.js</em></span> and move that into <span class="emphasis"><em>project-folder/d3/</em></span>.</p>
+<p style="font-style: italic;">Una tercera opción es descargar todo el repositorio D3, que no sólo le da los archivos JavaScript, sino también todo el código fuente de los componentes. Puede navegar por el contenido del repositorio primero, o sólo tiene que descargar todo el asunto como un archivo ZIP comprimido. Por supuesto, una vez que haya descargado todo, hacer una copia de los archivos y mover d3.v3.js que en el proyecto-carpeta / d3 /.</p>
+
+  </div>
+
+  <div class="" data-original-filename="4_setup.asciidoc" id="_referencing_d3">
+
+    <p id="now_create_a_si">Now create a simple HTML page within your project folder named <span class="emphasis"><em>index.html</em></span>. Remember, HTML documents are just plain text files, so you can use the text editor of your choice. Free editors like TextEdit and Notepad are fine, but your life might be easier if you use an editor designed specifically for working with code, like Coda, Espresso, or Sublime Text (among many, many others).<a id="id500723" class="indexterm" href=""></a></p>
+<p style="font-style: italic;">Ahora cree una página HTML simple dentro de la carpeta del proyecto denominado index.html. Recuerde, los documentos HTML son sólo archivos de texto plano, por lo que puede utilizar el editor de texto de su elección. Editores gratuitos como edición de textos y el Bloc de notas están bien, pero su vida podría ser más fácil si utiliza un editor diseñado específicamente para trabajar con código, como Coda, café express, o Sublime Text (entre muchos, muchos otros).</p>
+
+    <p id="if_your_editor_">If your editor gives you the option to set the file encoding, choose Unicode (UTF-8).</p>
+<p style="font-style: italic;">Si su editor le da la opción de configurar la codificación del archivo, seleccione Unicode (UTF-8).</p>
+
+    <p id="your_folder_str">Your folder structure should now look something like this:</p>
+<p style="font-style: italic;">Su estructura de carpeta debería ser algo como esto:</p>
+
+    <pre class="screen" id="projectfolder">project-folder/
+    d3/
+        d3.v3.js
+        d3.v3.min.js (optional)
+    index.html</pre>
+
+    <p id="paste_the_follo">Paste the following into your new HTML file:</p>
+<p style="font-style: italic;">Pegue el siguiente en el nuevo archivo HTML:</p>
+
+
+    <pre class="programlisting" data-language="html" id="doctype_html_id3">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+    &lt;head&gt;
+        &lt;meta charset="utf-8"&gt;
+        &lt;title&gt;D3 Page Template&lt;/title&gt;
+        &lt;script type="text/javascript" src="d3/d3.v3.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;script type="text/javascript"&gt;
+            // Your beautiful D3 code will go here
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    <p id="or_rather_than">Or, rather than go through all that manual labor, you could just download the sample code files (see <a class="xref" href="http://chimera.labs.oreilly.com/books/1230000000345/ch01.html" title="Chapter 1. Introduction">Chapter 1</a> for instructions), and take a look at <span class="emphasis"><em>01_empty_page_template.html</em></span>, which contains almost exactly the same code. (The <code class="literal">src</code> path to D3 is different in my version.)<a id="id500934" class="indexterm" href=""></a></p>
+<p style="font-style: italic;">O, en lugar de pasar por todo ese trabajo manual, usted podría descargar los archivos de código de la muestra (véase el Capítulo 1 para obtener instrucciones), y echar un vistazo a 01_empty_page_template.html, que contiene casi exactamente el mismo código. (El camino a D3 src es diferente en mi versión.)</p>
+
+
+    <p id="here_are_a_few_">Here are a few things to note about this template:</p>
+<p style="font-style: italic;">Aquí hay algunas cosas a tener en cuenta sobre esta plantilla:</p>
+
+    <p id="done_your_d_t">Done! Your D3 template files and folders are all set up. You might want to make a copy of this template for each new project down the line.<a id="id501025" class="indexterm" href=""></a></p>
+    <p style="font-style: italic;">¡Hecho! Los archivos y las carpetas de plantillas D3 están listas. Es posible que desee hacer una copia de esta plantilla para cada nuevo proyecto en la línea.</p>
+
+  </div>
+
+  <div class="" data-original-filename="4_setup.asciidoc" id="_setting_up_a_web_server">
+
+    <p id="in_some_cases_">In some cases, you can view local HTML files directly in your web browser. However, some browsers have restrictions that prevent them from loading local files via JavaScript, for security reasons. That means if your D3 code is trying to pull in any external datafiles (like CSVs or JSON), it will fail with no good explanation. This isn’t D3’s fault; it’s a browser feature that prevents loading of scripts and other external files from third-party, untrusted websites.<a id="id501058" class="indexterm" href=""></a><a id="id501066" class="indexterm" href=""></a></p>
+
+<p style="font-style: italic;">En algunos casos, pueden ver archivos HTML locales directamente en su navegador web. Sin embargo, algunos navegadores tienen restricciones que les impiden la carga de archivos locales a través de JavaScript, por razones de seguridad. Esto significa que si su código D3 está tratando de enganchar cualquier archivo de datos externos (como CSV o JSON), se producirá un error con una buena explicación. Esto no es culpa de D3; hay una función del navegador que impide la carga de secuencias de comandos y otros archivos externos de terceros, los sitios web no confiables.</p>
+    <p id="for_this_reason">For this reason, it is much more reliable to load your page via a web server. Although you <span class="emphasis"><em>could</em></span> use a remote web server, it is much, much faster to store and host everything locally (meaning, on the same computer, the one right in front of you). It is a strange idea, to use your local computer to host and serve files to itself, but you can think about it as the different programs talking to each other: the browser program requests files from the server program, which responds by serving them back.</p>
+<p style="font-style: italic;">Por esta razón, es mucho más fiable cargar la página a través de un servidor web. Aunque se puede utilizar un servidor web remoto, es mucho, mucho más rápido almacenar y alojar todo localmente (es decir, en el mismo equipo, correcto, el que está delante suyo). Es una idea extraña, el usar su computadora local para alojar y servir archivos a sí mismo, pero se puede pensar en ello como de diferentes programas que hablan entre sí: el programa navegador solicita archivos del programa servidor, que responde al servir de nuevo.</p>
+
+    <p id="the_good_news_i">The good news is that it’s quite easy to get a local server up and running. Here are a couple of ways to do that.</p>
+<p style="font-style: italic;">La buena noticia es que es muy fácil conseguir un servidor local en funcionamiento. Aquí hay un par de maneras de hacer eso.</p>
+    <div class="sect2" id="_terminal_with_python">
+
+      <p id="if_youre_using">If you’re using Mac OS X or Linux, then you already have Python installed. As long as you’re comfortable entering commands in the terminal, then running a miniserver with Python is definitely the quickest option. (If you’re on Windows, you’ll need to install Python first.)</p>
+<p style="font-style: italic;">Si utilizas Mac OS X o Linux, entonces ya tiene instalado Python. Mientras estás introducción de comandos confortables de la terminal, a continuación, ejecutar una miniserver con Python es sin duda la opción más rápida. (Si estás en Windows, tendrá que instalar Python en primer lugar.)</p>
+
+      <p id="to_use_python_">To use Python, you’ll need to open up a terminal window on your system. On a Mac, open the Terminal application. You can find it in the Utilities folder, or by typing <span class="keep-together"><span class="strong"><strong><code class="literal">Terminal</code></strong></span></span> into Spotlight (the magnifying glass menu item in the upper-right corner of your screen). Linux users are born knowing how to open a terminal window, so I won’t waste your time explaining it here.</p>
+<p style="font-style: italic;">Para utilizar Python, necesita abrir una ventana de terminal en su sistema. En un Mac, abra la aplicación Terminal. Lo puede encontrar en la carpeta Utilidades, o escribiendo en la terminal de Spotlight (el elemento de menú lupa en la esquina superior derecha de la pantalla). Los usuarios de Linux nacen sabiendo cómo abrir una ventana de terminal, por lo que no voy a perder el tiempo explicandolo aquí.</p>
+
+      <p id="to_run_a_python">To run a Python web server:</p>
+
+      <div class="orderedlist" id="open_up_a_new_t_id1">
+
+        <ol class="orderedlist" type="1">
+
+          <li class="listitem"> Open up a new terminal window. </li>
+<li class="listitem" style="font-style: italic;">Abra una nueva ventana de terminal.</li>
+
+          <li class="listitem"> Via the command line, navigate into the directory that you want served. For example, if your project folder is in your Desktop folder on your Mac, you could type: <span class="strong"><strong><code class="literal">cd ~/Desktop/project-folder</code></strong></span>. </li>
+<li class="listitem" style="font-style: italic;">A través de la línea de comandos, vaya al directorio que desea. Por ejemplo, si la carpeta de proyecto se encuentra en su carpeta Desktop en el Mac, puede escribir:<span class="strong"><strong><code class="literal">cd ~/Desktop/project-folder</code></strong></span></li>
+
+          <li class="listitem"> Enter <span class="strong"><strong><code class="literal">python -m SimpleHTTPServer 8888 &amp;</code></strong></span>. </li>
+<li class="listitem" style="font-style: italic;">Introduzca <span class="strong"><strong><code class="literal">python -m SimpleHTTPServer 8888 &amp;</code></strong></span>.</li>
+
+        </ol>
+
+      </div>
+
+      <p id="this_will_work">(This will work with Python version 2.x, but in Python versions 3.0 and newer, <span class="keep-together"><code class="literal">SimpleHTTPServer</code></span> has been removed. For Python 3.x, just replace <code class="literal">SimpleHTTPServer</code> with <code class="literal">http.server</code> in the command.)</p>
+<p style="font-style: italic;">(Esto funciona con Python 2.x, pero en versiones de Python 3.0 y más reciente, SimpleHTTPServer se ha eliminado. Para Python 3.x, basta con sustituir <code class="literal">SimpleHTTPServer</code> con <code class="literal">SimpleHTTPServer</code> with <code class="literal">http.server</code> en el comando.)</p>
+
+      <p id="this_will_activ">This will activate the server on port <code class="literal">8888</code>. Switch back to your web browser and visit the following URL: <a class="ulink" href="http://localhost:8888/" target="_top">http://localhost:8888/</a>. Yes, instead of <span class="emphasis"><em>www.something.com</em></span>, you just use <span class="emphasis"><em>localhost</em></span>, which tells the browser to request a page from <span class="emphasis"><em>this machine</em></span>.</p>
+<p style="font-style: italic;">Esto activará el servidor en el puerto 8888. Cambie de nuevo a su navegador web y visite el siguiente URL: http: // localhost: 8888 /. Si, en lugar de www.something.com, sólo tiene que utilizar localhost, que indica al navegador para solicitar una página de esta máquina.</p>
+
+      <p id="you_should_see__id1">You should see the blank “D3 Page Template” page. Given that <code class="literal">body</code> of the page is empty, it won’t look like much. Select View source, and you should see the contents of our HTML template page.</p>
+<p style="font-style: italic;">Debería ver la página en blanco "D3 plantilla de página". Teniendo en cuenta que el cuerpo de la página está vacía, no se parece mucho. Seleccione Ver código fuente, y debería ver el contenido de nuestra página de plantilla HTML.</p>
+
+    </div>
+
+    <div class="sect2" id="_mamp_wamp_and_lamp">
+
+      <p id="this_option_tak">This option takes longer, but is best if you like dragging and dropping to install things, and want to avoid scary things like the terminal.</p>
+<p style="font-style: italic;">Esta opción toma más tiempo, pero es mejor si te gusta arrastrar y soltar para instalar cosas, y queremos evitar cosas que dan miedo como el terminal.</p>
+
+      <p id="all_of_the_amps">All of the AMPs in this section stand for Apache (the web server software), MySQL (popular database software), and PHP (a popular web scripting language). We are really interested only in Apache, the web server, but it usually comes bundled with the other two, as they all work well together.</p>
+<p style="font-style: italic;">Todas las AMP en esta sección se destacan para Apache (el software de servidor web), MySQL (software popular base de datos), y PHP (una tela lenguaje popular). Estamos realmente interesados sólo en Apache, el servidor web, pero por lo general se suministra junto con los otros dos, ya que todos trabajan bien juntos.</p>
+
+      <p id="on_a_mac_you_c">On a Mac, you can download and install <a class="ulink" href="http://mamp.info/en/" target="_top">MAMP</a> or <a class="ulink" href="http://bit.ly/W8RQa6" target="_top">XAMPP for Mac</a>.</p>
+<p style="font-style: italic;">En un Mac, puede descargar e instalar MAMP o XAMPP para Mac.</p>
+
+      <p id="the_windows_equ">The Windows equivalents are <a class="ulink" href="http://www.wampserver.com/en/" target="_top">WampServer</a> and <a class="ulink" href="http://bit.ly/ZEGJq1" target="_top">XAMPP for Windows</a>.</p>
+<p style="font-style: italic;">Los equivalentes de Windows son WampServer y XAMPP para Windows.</p>
+
+      <p id="if_you_use_linu">If you use Linux, then all of this is probably already installed on your machine, but you could still download <a class="ulink" href="http://bit.ly/126txfk" target="_top">XAMPP for Linux</a>.</p>
+<p style="font-style: italic;">Si utiliza Linux, entonces todo esto está probablemente ya instalado en su máquina, pero aún se podía descargar XAMPP para Linux.</p>
+
+      <p id="installation_fo">Installation for each of these packages varies somewhat, so follow the documentation carefully. (I’ve found MAMP to be the easiest to install.)</p>
+<p style="font-style: italic;">La instalación para cada uno de estos paquetes varía un poco, así que siga la documentación cuidadosamente. (He encontrado que MAMP es el más fácil de instalar.)</p>
+
+      <p id="each_package_wi">Each package will designate one folder as the web server directory, so only the files <span class="emphasis"><em>within that folder</em></span> will be served. You should find out what that folder is, and move your D3 <span class="emphasis"><em>project-folder</em></span> into it.</p>
+<p style="font-style: italic;">Cada paquete designará una carpeta en el directorio del servidor web, por lo que se contactará sólo con los archivos dentro de esa carpeta. Usted debe saber cuál es la carpeta y mover el proyecto D3-carpeta a ella.</p>
+
+      <p id="once_the_local_">Once the local server is up and running, you can view any pages within the server directory by opening a browser (on the same computer, of course) and pointing it to <span class="emphasis"><em>localhost</em></span>, as in the following: <a class="ulink" href="http://localhost/" target="_top">http://localhost/</a>. Depending on your AMP configuration, you might need to append a port number to the URL, as in the following: <a class="ulink" href="http://localhost:8888/" target="_top">http://localhost:8888/</a>.</p>
+<p style="font-style: italic;">Una vez que el servidor local está en funcionamiento, puede ver todas las páginas dentro del directorio del servidor mediante la apertura de un navegador (en el mismo equipo, por supuesto) y que apunta a localhost, como en el siguiente: http: // localhost /. Dependiendo de la configuración del AMP, puede que tenga que añadir un número de puerto de la dirección URL, como en el siguiente: http: // localhost: 8888 /.</p>
+
+      <p id="if_the_servers">If the server’s port number is <code class="literal">8888</code> and your project folder is called <span class="emphasis"><em>project-folder</em></span>, then you could view your D3 template page by going to <a class="ulink" href="http://localhost:8888/project-folder/" target="_top">http://localhost:8888/project-folder/</a>.</p>
+<p style="font-style: italic;">Si el número de puerto del servidor es 8888 y su carpeta de proyecto se llama proyecto-carpeta, entonces usted podría ver su página de la plantilla D3 llendo a http: // localhost: 8888 / project-folder /.</p>
+
+    </div>
+
+    <div class="sect2" id="_diving_in">
+
+      <p id="all_set_great">All set? Great! Let’s start working with data.</p>
+<p style="font-style: italic;">¿Todo listo? ¡Estupendo! Vamos a empezar a trabajar con los datos.</p>
+
+    </div>
+
+  </div>
+
+
+
+</body>
+
+</html>

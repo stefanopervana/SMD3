@@ -1,0 +1,750 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+  <title>Dotepub.com</title>
+  <link href="../../../1/1/OEBPS/styles/dotepub.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+
+  <div>
+
+    <div class="titlepage">
+
+      <div>
+
+        <h1 class="title">Chapter 10. Interactivity</h1>
+
+      </div>
+
+    </div>
+
+    <p>Now that you’re an old pro at data updates, transitions, and motion, let’s incorporate true interactivity.</p>
+
+    <p style="font-style: italic;">Ahora que eres un viejo pro de los data updates, transiciones y movimiento, vamos a incorporar la verdadera interactividad.</p>
+    <div>
+      <h2 class="title">Binding Event Listeners</h2>
+      <h2 class="title" style="font-style: italic;">Enlazando Detectores de Eventos</h2>
+    </div>
+    <p>Say what? I know, I know: First, we bound data, which was weird enough. And now I’m talking about binding event listeners? (This is how JavaScript earned its reputation for being such a strange language.)</p>
+
+    <p style="font-style: italic;">¿Que qué? Lo sé, lo sé: En primer lugar, estamos ligados de datos, lo cual era lo suficientemente extraño. Y ahora que estoy hablando de enlazar detectores de eventos? (Así es como JavaScript se ganó su reputación de ser un lenguaje tan extraño.)</p>
+
+    <p>As explained in Chapter 9, JavaScript uses an event model in which “events” are triggered by things happening, such as new input from the user, provided via a keyboard, mouse, or touch screen. Most of the time, events are being triggered constantly, left and right—it’s just that nobody is listening for them, so they are ignored.
+</p>
+
+    <p style="font-style: italic;">Como se explica en el Capítulo 9, JavaScript utiliza un modelo de eventos en los que los "eventos" son provocados por cosas que suceden, como una nueva entrada del usuario, proporcionada a través de un teclado, un ratón o una pantalla táctil. La mayor parte del tiempo, los acontecimientos se activan constantemente, a izquierda y derecha es sólo que nadie está escuchandolos, por lo que se ignoran.</p>
+
+    <p>To make our pieces interactive, we define chunks of code that listen for specific events being triggered on specific DOM elements. In Chapter 9, we used the following code:</p>
+
+    <p style="font-style: italic;">
+Para hacer nuestras piezas interactiva, definimos trozos de código que detectan los eventos específicos que se activan en los elementos DOM específicos. En el capítulo 9, se utilizó el siguiente código:</p>
+
+    <pre class="programlisting" data-language="javascript" id="var_sortbars___id1">d3.select("p")
+    .on("click", function() {
+        //Do something on click
+    });</pre>
+
+    <p>This binds an event listener to the p paragraph element. The listener happens to be listening for the click event, which is the JavaScript event triggered when the user clicks the mouse on that p element. (D3 doesn’t use custom event names, although you can define your own. For the sake of supporting existing standards, D3 recognizes all the standard JavaScript events, such as mouseover and click. The events supported vary somewhat by browser. Peter-Paul Koch’s event compatibility tables are a useful reference.)</p>
+
+    <p style="font-style: italic;"> Esto se une a un detector de eventos para el elemento p párrafo. El detector pasa a estar detectando para el evento click, que es el evento JavaScript que se activa cuando el usuario hace clic con el ratón sobre ese elemento p. (D3 no utiliza nombres de eventos personalizados, aunque puede definir el suyo propio. Por el bien de soportar los estándares existentes, D3 reconoce todos los eventos estándar de JavaScript, como mouseover y clic. Los eventos admitidos varían un poco según el navegador. Las tablas de compatibilidad de Peter-Paul Koch son una referencia útil).</p>
+
+    <p>This gets at one of the nuances of JavaScript’s event model, which is that events don’t happen in a vacuum. Rather, they are always called on a specific element. So the code just shown isn’t activated whenever any click occurs; it is run just when a click occurs on the p element.</p>
+
+    <p style="font-style: italic;">
+Esto nos lleva a uno de los matices del modelo de eventos de JavaScript, que es que los eventos no ocurren en el vacío. Por el contrario, siempre se les llama en un elemento específico. Por lo que el código sólo se muestra no se activa cada vez que se produce cualquier clic; que se ejecuta justo cuando ocurre un clic en el elemento p.</p>
+
+    <p>You could achieve all this with raw JavaScript, but D3’s on() method is a handy way to quickly bind event listeners to D3 selections. As you can see, on() takes two arguments: the event name, and an anonymous function to be executed when the event is triggered on the selected element.</p>
+
+    <p style="font-style: italic;">Se podría lograr todo esto con JavaScript crudo, pero el método de D3 on() es una forma práctica. De manera rápida los detectores de eventos se unen a las selecciones D3. Como se puede ver, on() toma dos argumentos: el nombre del evento, y una función anónima que se ejecuta cuando el evento se lanza sobre el elemento seleccionado.</p>
+
+    <p>Making your visualization interactive is a simple, two-step process that includes:</p>
+
+    <p style="font-style: italic;">Hacer la visualización interactiva es un proceso simple, de dos etapas que incluye:
+
+</p>
+
+
+<ul style="list-style-type:none">
+      <li>1 - Binding event listeners</li>
+    <li style="font-style: italic;">Enlazado de detectores de eventos</li>
+
+      <li>2 - Defining the behavior</li>
+    <li style="font-style: italic;">Definición del comportamiento</li>
+
+    </ul>
+
+
+
+    <div class="titlepage">
+
+      <div>
+
+        <h3 class="title">Introducing Behaviors</h3>
+
+      </div>
+
+    </div>
+            <div>
+
+      <h3 class="title" style="font-style: italic;">Introducción de Comportamientos</h3>
+
+    </div>
+
+
+    <p style="font-style: italic;">Let’s start by working with an earlier, static version of our bar chart. See sample code 01_start.html.</p>
+
+    <p style="font-style: italic;">Vamos a empezar a trabajar con una versión anterior, estática de nuestro gráfico de barras. Veamos el  código de ejemplo 01_start.html.</p>
+
+    <p>The example code binds an event on only one element: p. This is an unusual usage for on(). More commonly, you will want to bind event listeners to more than one element at a time, such as to all of the visual elements in your visualization. Fortunately, that is very easy to do. Instead of using select() to select only one element, use selectAll() to select multiple elements and pass that selection to on().</p>
+
+    <p style="font-style: italic;">El código de ejemplo une un evento en un solo elemento: p. Este es un uso inusual para on(). Con mayor frecuencia, tendrá que obligar a los detectores de eventos a detectar más de un elemento a la vez, como a todos los elementos visuales en su visualización. Afortunadamente, es muy fácil de hacer. En lugar de utilizar select() para seleccionar un solo elemento, utilice selectAll() para seleccionar varios elementos y transmitir esa selección on().</p>
+
+    <p>You can even bind those event listeners right at the moment when you first create elements. For example, here is our existing code that creates our bar chart’s rects, to which I’ve simply tacked on on():</p>
+
+    <p style="font-style: italic;">Incluso se puede obligar a los detectores de eventos justo en el momento cuando crean elementos. Por ejemplo, aquí está nuestro código existente que crea bar chart’s rects, a la que he virado simplemente con on():</p>
+
+    <pre class="programlisting" data-language="javascript" id="var_sortbars___id9">//Create bars
+svg.selectAll("rect")
+   .data(dataset)
+   .enter()
+   .append("rect")
+   …   //Set attributes (omitted here)
+   .on("click", function(d) {
+       //This will run whenever *any* bar is clicked
+   });</pre>
+
+    <p>When defining the anonymous function, you can reference d, or d and i, or neither, just as you’ve seen throughout D3. And then whatever code you put between the function’s brackets will execute on click.</p>
+
+    <p style="font-style: italic;">
+Al definir la función anónima, puede hacer referencia a <strong>d</strong>, o <strong>d</strong> e <strong>i</strong>, o ninguno, al igual que usted ha visto a lo largo D3. Y a continuación, cualquier código que se pone entre paréntesis de la función se ejecutará al hacer clic.</p>
+
+    <p>This is a quick and easy way to verify your data values, for example:</p>
+
+    <p style="font-style: italic;">Esta es una manera rápida y fácil de verificar sus valores de datos, por ejemplo:</p>
+
+    <pre class="programlisting" data-language="javascript" id="var_sortbars___id3">.on("click", function(d) {
+             console.log(d);
+});</pre>
+
+    <p>Try that code by running 02_click.html, open the JavaScript console, and click on some bars. When you click on each bar, you should see that bar’s data value printed to the console. Nice!</p>
+
+    <p style="font-style: italic;">Ejecute el archivo 02_click.html, el código abrirá la consola de JavaScript, y haga clic en algunas barras. Al hacer clic en cada barra, debería ver el valor de los datos de barras impreso en la consola. ¡Bonito!</p>
+
+    <div class="" id="_click_to_sort">
+
+    <div class="titlepage">
+
+      <div>
+
+        <h3 class="title">Hover to Highlight</h3>
+
+      </div>
+
+    </div>
+                <div>
+
+      <h3 class="title" style="font-style: italic;">Pase el Cursor para Destacar</h3>
+
+    </div>
+
+
+
+
+<p>Highlighting elements in response to mouse interaction is a common way to make your visualization feel more responsive, and it can help users navigate and focus on the data of interest.</p>
+<p style="font-style: italic;">Destacar elementos en respuesta a la interacción del ratón es una forma común de hacer que su visualización se vea más sensible, y pueda ayudar a los usuarios a navegar y que se centren en los datos de interés.</p>
+
+<p>A simple hover effect can be achieved with CSS alone—no JavaScript required! The CSS pseudoclass selector :hover can be used in combination with any other selector to select, well, that same thing, but when the mouse is hovering over the element. Here, we select all SVG rects and set their fill to orange (see Figure 10-1):</p>
+
+<p style="font-style: italic;">Un efecto de la libración sencilla se puede lograr solo con CSS, sin que sea necesario JavaScript! El CSS pseudoclass selector: hover se puede utilizar en combinación con cualquier otro selector para elegir, así, que la misma cosa, pero cuando esté el ratón sobre el elemento. A continuación, se recogieron todos rects SVG y establecer sus llenado de naranja (ver Figura 10-1):</p>
+
+<pre class="programlisting" data-language="javascript" id="var_sortbars___id4">rect:hover {
+        fill: orange;
+}</pre>
+            <div class="figure" id="fig 10-1">
+
+      <div class="figure-contents">
+      
+        <div class="mediaobject">
+
+          <img src="../img/Fig101.png" alt="The view after click-to-sort"/>
+
+        </div>
+              </div>
+    </div>
+      <p>Figure 10-1. A simple CSS-only mouse hover effect</p>
+
+    <p>See 03_hover.html, and try it out yourself.</p>
+    <p style="font-style: italic;"> 03_hover.html, y pruebelo.</p>
+
+<p>CSS hover styling is fast and easy, but limited. There’s only so much you can achieve with :hover. Fortunately, recent browsers support applying the new CSS3 transitions on SVG elements. Try adding this above the rect:hover rule in that example:</p>
+<p style="font-style: italic;"> El estilo CSS hover es rápido y fácil, pero limitado. Sólo que hay tanto que se puede lograr con: hover. Afortunadamente, los navegadores recientes apoyan la aplicación de las nuevas transiciones CSS3 en los elementos SVG. Trate de añadir esta por encima de la rect: coloque la regla en ese ejemplo:</p>
+
+<pre class="programlisting" data-language="javascript" id="var_sortbars___id5">rect {
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+}</pre>
+
+    <p>This tells browsers (including Mozilla, Opera, and Webkit-based browsers) to apply a 0.2-second transition to any changes to the rect elements. Run that, and you’ll see that the blue/orange switch no longer happens instantly, but smoothly, over a brief 0.2-second period. Nice!</p>
+    <p style="font-style: italic;">Esto le dice a los navegadores (incluyendo Mozilla, Opera y los navegadores basados ​​en WebKit) que apliquen una transición de 0,2 segundos a cualquier cambio en los elementos rect. Ejecute eso, y verá que el interruptor azul / naranja ya no ocurre instantáneamente, pero sin problemas, durante un breve período de 0,2 segundos. ¡Bonito!</p>
+    <p><strong>Ejercicio</strong></p>
+
+    <p>Yet these transitions can also be managed using JavaScript and D3, for additional control and coordination with other parts of our visualization. Luckily for us, D3 handles all the hassle of transitions for us, so working with JavaScript is not so bad. Let’s re-create the orange hover effect without CSS.</p>
+<p style="font-style: italic;">Sin embargo, estas transiciones también se pueden gestionar utilizando JavaScript y D3, para el control adicional y la coordinación con otras partes de nuestra visualización. Por suerte para nosotros, D3 se encarga de todos los problemas de las transiciones para nosotros, por lo que trabajar con el lenguaje Javascript no es tan malo. Vamos a volver a crear el efecto de la libración de naranja sin CSS.</p>
+
+<p>Instead of referencing the click event, as we did earlier, we can call on() with mouseover, the JavaScript event equivalent of CSS’s hover:</p>
+<p style="font-style: italic;">En lugar de hacer referencia al evento click, como hicimos antes, podemos llamar a on() con mouseover, el evento JavaScript equivalente del hover de CSS:</p>
+
+    <pre class="programlisting" data-language="javascript" id="onclick_">…
+.on("mouseover", function() {
+        //Do something on mouseover of any bar
+});</pre>
+
+    <p>Now we want to set the fill of this bar (the one on which the mouseover event is triggered) to orange. Yet we are operating in the context of an anonymous function—how could we possibly select the same element on which the event was just triggered?</p>
+    <p style="font-style: italic;">Ahora queremos establecer el relleno de esta barra (aquel en el que se activa el evento mouseover) a naranja. Sin embargo, estamos operando en el contexto de una function—how anonima es posible que podamos seleccionar el mismo elemento en el que solo se ha activado el evento?</p>
+
+<p>The answer is this. No, sorry, I mean this. Just select this, and set its fill to orange:</p>
+<p style="font-style: italic;">La respuesta es la siguiente. No, lo siento, me refiero a esto. Sólo tienes que seleccionar este, y establecer su fill naranja:</p>
+
+
+    <pre class="programlisting" data-language="javascript" id="var_sortbars___id99">.on("mouseover", function() {
+        d3.select(this)
+          .attr("fill", "orange");
+});</pre>
+
+    <p>Another reason “real” programmers hate JavaScript is because of its notoriously wishy washy use of the keyword this. In other languages, the meaning of this is very clearly defined; not so in JavaScript. (jQuery fans are used to this debate.)</p>
+    <p style="font-style: italic;">Otra de las razones "reales" por la que los programadores odian JavaScript es debido al uso notorio (washy wishy)  de la palabra clave this. En otros idiomas, el significado de esto está muy claramente definido; no así en JavaScript. (Los fans de JQuery se utilizan para este debate.)</p>
+
+<p>For our purposes, here is all you need to know:</p>
+<p style="font-style: italic;">Para nuestros propósitos, esto es todo lo que necesita saber:</p>
+<p>Ejercicio</p>
+
+
+<ul>
+<li>Context is important.</li>
+<li>Within anonymous functions, D3 automatically sets the context of this so it references “the current element upon which we are acting.”</li>
+</ul>
+<ul>
+<li><p style="font-style: italic;">El contexto es importante.</p></li>
+<li><p style="font-style: italic;">Dentro de las funciones anónimas, D3 ajusta automáticamente el contexto de este por lo que hace referencia a "el elemento actual en el que estamos actuando".</p></li>
+</ul>
+<p>The end result is that, when we hand off anonymous functions to any of D3’s methods, we can reference this when trying to act on the current element.</p>
+<p style="font-style: italic;">El resultado final es que, cuando tomamos funciones anónimas con cualquiera de los métodos de D3, podemos hacer referencia a este cuando se trata de actuar sobre el elemento actual.</p>
+
+<p>Indeed, you can see this (ha!) in action in 04_mouseover.html (Figure 10-2).</p>
+<p style="font-style: italic;">De hecho, se puede ver esto (ja!) En acción en 04_mouseover.html (Figura 10-2).</p>
+
+    <div class="figure" id="click-to-sort">
+
+      <div class="figure-contents">
+
+        <div class="mediaobject">
+
+         <img alt="Imagen" src="../Fig102.png"/>
+
+        </div>
+
+      </div>
+         </div>
+
+      <p>Figure 10-2. Using D3 to set an orange fill on mouseover</p>
+
+ 
+
+    <p>Move the mouse over a rect, the event listener for that rect is triggered, that same rect is selected (as this), and then its fill is set to orange.</p>
+<p style="font-style: italic;">Mover el ratón sobre un rect, el detector de eventos para que rect se active, el mismo se selecciona rect (como este), y después de su relleno se establece en naranja.</p>
+
+<p>Figure 10-2 looks good, but we should probably restore each bar’s original color once the hover is over, meaning on mouseout:</p>
+<p style="font-style: italic;">La Figura 10-2 se ve bien, pero probablemente se deben recuperar los colores originales de cada barra una vez que pasó el mouse, es decir, al hacer mouseout:</p>
+    <pre class="programlisting" data-language="javascript" id="var_sortbars___id98">.on("mouseout", function(d) {
+        d3.select(this)
+      .attr("fill", "rgb(0, 0, " + (d * 10) + ")");
+});</pre>
+
+    <p>Perfect! Try it yourself in 05_mouseout.html. See Figure 10-3.</p>
+        <p style="font-style: italic;">¡Perfecto! Inténtelo usted mismo en el archivo 05_mouseout.html. Vea la Figura 10-3.</p>
+      
+        <div>
+
+         <img alt="Imagen" src="../Fig103.png"/>
+
+        </div>
+
+ 
+      <p>Figure 10-3. Moving the mouse left to right, with fills set on mouseover and mouseout</p>
+          <p style="font-style: italic;">Figura 10-3. Al mover el ratón de izquierda a derecha, con rellenos establecidos en mouseover y mouseout.</p>
+
+    
+
+    <p>I am really excited to have accomplished in eight lines of JavaScript what I did originally with CSS in only three! (Not!)</p>
+
+
+    <p style="font-style: italic;">Estoy muy emocionado de haber logrado en ocho líneas de JavaScript lo que hice originalmente con CSS en sólo tres! (¡No!)</p>
+
+    
+
+<p>Actually, what I am excited about is to now make the outbound transition silky smooth (see Figure 10-4). As you remember from Chapter 9, accomplishing that involves adding only two lines of code, for transition() and duration():</p>
+    <p style="font-style: italic;">En realidad, lo que estoy entusiasmado es el momento de hacer la transición de salida suave como la seda (ver Figura 10-4). Como recuerdan del Capítulo 9, logrando que incluya la adición de sólo dos líneas de código, para la transition() y duration():</p>
+    <pre class="programlisting" data-language="javascript" id="var_sortbars___id96">.on("mouseout", function(d) {
+    d3.select(this)
+      .transition()
+      .duration(250)
+      .attr("fill", "rgb(0, 0, " + (d * 10) + ")");
+});</pre>
+
+    <p>Try that out in 06_smoother.html.</p>
+
+
+    <div class="figure" id="interrupted1">
+
+      <div class="figure-contents">
+
+        <div class="mediaobject">
+
+        <img alt="Imagen" src="../Fig104.png"/>
+
+        </div>
+
+      </div>
+
+      <p>Figure 10-4. Moving the mouse left to right (Smooth Operator Edition)</p>
+
+    </div>
+
+    <p><strong>Ejercicio</strong></p>
+        <div class="titlepage">
+
+      <div>
+
+        <h3 class="title">Pointer Events on Overlapping Elements</h3>
+
+      </div>
+
+    </div>
+
+    <p>
+Mouse events are triggered only on elements with pixels that can be “touched” by the mouse. If two elements overlap, and the mouse moves over the element that is “on top” (in other words, closer to the front), then the mouseover event will be triggered on the frontmost element, and not on the element behind it.</p>
+    <p style="font-style: italic;">Los eventos de ratón se activan sólo en elementos con píxeles que pueden ser "tocados" por el ratón. Si dos elementos se superponen, y mueve el ratón sobre el elemento que está "por encima" (en otras palabras, más cerca de la parte delantera), entonces el evento mouseover se activarán en el elemento situado más al frente, y no en el elemento detrás de él.</p>
+
+
+<p>You can see this in 06_smoother.html. Mouse over any bar, and then move your pointer directly above one of the value labels. You’ll see the bar fade back from orange to blue. The text elements are in front of the bars, so mousing over a label involves also mousing out of the rect behind it. This is counterintuitive because, visually, we haven’t left the rect at all, but as far as JavaScript is concerned, we have.</p>
+    <p style="font-style: italic;">Esto se puede ver en 06_smoother.html. Haga Mouse over en una barra, y luego mueva el puntero directamente sobre una de las value labels. Verá que la barra se desvanece de nuevo desde el naranja al azul. Los elementos de texto están en frente de los barras, por lo que pasar el ratón sobre una etiqueta también implica pasar el ratón fuera de la rect detrás de él. Esto es contrario a la intuición, ya que, visualmente, no hemos dejado el rect en absoluto, pero estamos en lo que se refiere JavaScript</p>
+
+
+<p>Remember that in SVG, elements placed later in the DOM are rendered visually “in front” of earlier elements. (See the section "Layering and Drawing Order" in Chapter 3.)</p>
+    <p style="font-style: italic;">Recuerde que en SVG,los  elementos colocados posteriormente en el DOM se representan visualmente "delante" de los elementos anteriores. (Vea la sección "Orden de Capas y Dibujos" en el capítulo 3.)</p>
+
+<p>In many cases, you might want mouse events on some elements (such as our value labels) to be ignored. Luckily, this is as easy as applying one line of CSS to the elements you wish to have ignored:</p>
+    <p style="font-style: italic;">En muchos casos, es posible que desee eventos del ratón sobre algunos elementos (como nuestras etiquetas de valor) para ser ignorado. Por suerte, esto es tan fácil como aplicar una línea de CSS a los elementos que desea seán ignorado:</p>
+
+    <pre class="programlisting" data-language="javascript" id="var_sortbars___id95">pointer-events: none;</pre>
+<p>This magically tells the browser “Hey, this element shouldn’t trigger any pointer events (such as click, mouseover, or mouseout), so just behave as if this element isn’t here.” It lets events pass through to the next element below it.</p>
+    <p style="font-style: italic;">Esto le dice al navegador mágicamente "Hey, este elemento no debe dar lugar a ningún evento del puntero (como click, mouseover, o mouseout), por lo que sólo comportate como si este elemento no estubiera aquí". Esto permite que pasen a través de eventos al siguiente elemento por debajo de ese.</p>
+
+<p>Use normal CSS selectors to target the appropriate elements. For example, this would apply that to all SVG text elements:</p>
+    <p style="font-style: italic;">Utilice los selectores CSS normales para apuntar a los elementos apropiados. Por ejemplo, esto se aplicaría a todos los elementos de texto SVG:</p>
+
+
+    <pre class="programlisting" data-language="javascript" id="var_sortbars___id94">svg text {
+        pointer-events: none;
+}</pre>
+<p>Or, instead of including this in a stylesheet, you could specify the CSS with D3 directly when you create the text element, for example:</p>
+
+    <p style="font-style: italic;">O bien, en lugar de constar en una hoja de estilo, se podría especificar el CSS con D3 directamente al crear el elemento de texto, por ejemplo:</p>
+
+
+    <pre class="programlisting" data-language="javascript" id="var_sortbars___id93">svg.append("text")
+        …  //other stuff here
+        .style("pointer-events", "none");</pre>        
+        
+        <div class="titlepage">
+
+      <div>
+
+        <h2 class="title">Grouping SVG Elements</h2>
+
+      </div>
+
+    </div>
+
+   
+
+
+  <p id="note_that_g_gro" class="">Note that <code class="literal">g</code> group elements <pn class="emphasis"><em>do not</em></pn>, by themselves, trigger any mouse events. The reason for this is that <code class="literal">g</code> elements have no pixels! Only their enclosed elements—like <code class="literal">rect</code>s, <code class="literal">circle</code>s, and <code class="literal">text</code> elements—have pixels.</p><p></p>
+    <p style="font-style: italic;">Tenga en cuenta que los elementos del grupo <code class="literal">g</code> no lo hacen, por sí mismos, desencadenan eventos de ratón. La razón de esto es que los elementos <code class="literal">g</code> no tienen puntos! Sólo sus elementos -como cerrados<code class="literal">rect</code>s, <code class="literal">circle</code>s, y elementos de <code class="literal">text</code>, tienen píxeles.</p>
+  <p id="you_can_still_b" class="">You can still bind event listeners to <code class="literal">g</code> elements. Just keep in mind that the elements within that <code class="literal">g</code> will then behave as a group. For example, if <pn class="emphasis"><em>any</em></pn></p> of the enclosed elements are clicked or moused over, then the listener function will be activated.<a id="id551409" class="indexterm" href=""></a><a id="id551417" class="indexterm" href=""></a><p></p>
+    <p style="font-style: italic;">Todavía se puede obligar a los detectores de eventos a los elementos <code class="literal">g</code>. Hemos de tener en cuenta que los elementos dentro de ese <code class="literal">g</code> se comportaran entonces como un grupo. Por ejemplo, si en alguno de los elementos encerrados se hace clic o moused over, a continuación, se activará la función de detector.</p>
+  
+  <p id="this_technique_" class="">This technique can be quite useful when you have several visual elements that should all act in concert. In our bar chart, for example, we could group <code class="literal">rect</code> and <code class="literal">text</code> elements each into their own groups. The element hierarchy currently looks like this:</p>
+  
+  <p style="font-style: italic;">Esta técnica puede ser muy útil cuando se tienen varios elementos visuales y todos deben actuar en conjunto. En nuestro gráfico de barras, por ejemplo, podríamos incluir grupos de <code class="literal">rect</code>s y elementos de <code class="literal">text</code> cada uno en sus propios grupos. La jerarquía de elementos actualmente se ve así:</p>
+  <p id="instead_of_worr" class="">Instead of worrying about <code class="literal">pointer-events</code> and which element is on top, we just bind the event listener to the whole group. So clicking on some <code class="literal">text</code> will trigger the same code as clicking on a <code class="literal">rect</code> because they’re both in the same group.</p>
+  <p style="font-style: italic;">En lugar de preocuparse de <code class="literal">pointer-events</code>y qué elemento está en la parte superior, que acaba de obligar a la escucha de eventos para todo el grupo. Así que al hacer clic en algún texto se diprará el mismo código que al hacer clic en un rect porque los dos están en el mismo grupo.</p><p id="even_better_th" class="">Even better, throw an invisible <code class="literal">rect</code> with a <code class="literal">fill</code> of <code class="literal">none</code> and <code class="literal">pointer-events</code> value of <code class="literal">all</code> on the top of each group. Even though the <code class="literal">rect</code> is invisible, it will still trigger mouse events, so you could have the <code class="literal">rect</code> pn the whole height of the chart. The net effect is that mousing <pn class="emphasis"><em>anywhere</em></pn></p> in that column—even in “empty” whitepce above a short blue bar—would trigger the highlight effect.<p></p>
+
+<p style="font-style: italic;">Aún mejor, lanzar un <code class="literal">rect</code> invisible con un relleno de ninguno y el valor de <code class="literal">pointer-events</code> de todo en la parte superior de cada grupo. A pesar de que el <code class="literal">rect</code> es invisible, todavía dará lugar a eventos de ratón, por lo que podría tener el tramo <code class="literal">rect</code> toda la altura de la tabla. El efecto neto es que pasar el ratón en cualquier lugar de la columna, incluso en los espacios en blanco "vacíos" por encima de una barra corta azul-activaría el efecto de relieve.</p>
+  
+  
+  <div class=""> <div class="titlepage"><div><h3 class="title">Click to Sort</h3></div></div>
+  <p id="interactive_vis">Interactive visualization is most powerful when it can provide different <pn class="emphasis"><em>views</em></pn> of the data, empowering the user to explore the information from different angles.</p><a id="id551569" class="indexterm" href=""></a><a id="id551578" class="indexterm" href=""></a><a id="id551583" class="indexterm" href=""></a><a id="id551589" class="indexterm" href=""></a><p></p>
+  <p style="font-style: italic;">La visualización interactiva es más potente cuando se puede proporcionar diferentes vistas de los datos, permitiendo al usuario acceder a explorar la información desde diferentes ángulos.</p>
+  <p id="the_ability_to_">The ability to <pn class="emphasis"><em>sort</em></pn> data is extremely important. And yes, as you just guessed, D3 makes it very easy to sort elements.</p>
+  <p style="font-style: italic;">La capacidad de ordenar los datos es extremadamente importante. Y sí, ya que sólo adivinado, D3 hace que sea muy fácil ordenar los elementos.</p>
+  <p id="continuing_with_id2">Continuing with the bar chart, let’s add an event listener for the <code class="literal">click</code> event, to which we bind an anonymous function that, in turn, will call a new function of our own creation, <code class="literal">sortBars()</code>.</p>
+  <p style="font-style: italic;">Continuando con el gráfico de barras, vamos a añadir un detector de eventos para el evento click, a la que nos atamos a una función anónima que, a su vez, llama a una nueva función de nuestra propia creación, sortBars().</p>
+  
+  <pre class="programlisting" data-language="javascript">…
+.on("click", function() {
+        sortBars();
+});</pre> 
+<p id="for_simplicity">For simplicity, we are binding this to every bar, but of course you could bind this instead to a button or any other element, inside or outside of the SVG image.</p><p id="at_the_end_of_t">At the end of the code, let’s define this new function and store it in <code class="literal">sortBars</code>:</p>
+<p style="font-style: italic;">Por simplicidad, son vinculantes  a cada barra, pero por supuesto que podríamos enlazar este lugar a un botón o cualquier otro elemento, dentro o fuera de la imagen SVG.
+Al final del código, vamos a definir esta nueva función y la almacenamos en sortBars:</p>
+
+<pre class="programlisting" data-language="javascript">var sortBars = function() {
+
+        svg.selectAll("rect")
+           .sort(function(a, b) {
+                 return d3.ascending(a, b);
+           })
+           .transition()
+           .duration(1000)
+           .attr("x", function(d, i) {
+                 return xScale(i);
+           });
+
+};</pre> 
+<p id="you_can_see_thi_id3">You can see this code in <pn class="emphasis"><em>07_sort.html</em></pn></p> and the result in <a class="xref" href="http://chimera.labs.oreilly.com/books/1230000000345/ch10.html#click-to-sort" title="Figure 10-5. The view after click-to-sort">Figure 10-5</a>. Try clicking any of the bars, and watch them reorganize.<p></p>
+
+<div class="figure" id="click-to-sortese">
+ <div class="figure-contents">
+<div class="mediaobject">
+<img alt="Imagen" src="../Fig105.png"/>
+</div>
+</div>
+<p>Figure 10-5. The view after click-to-sort</p></div>
+
+
+<p style="font-style: italic;">Se puede ver este código en 07_sort.html y el resultado en la figura 10-5 . Intente hacer clic en cualquiera de las barras, y mire cómo se reorganizan.</p>
+
+<p style="font-style: italic;">Figura 10-5. La vista después de click-to-sort</p>
+
+<p id="when_sortbars">When <code class="literal">sortBars()</code> is called, first we reselect all the <code class="literal">rect</code>s. Then we use D3’s handy <code class="literal">sort()</code> method, which reorders elements based on their bound data values. <code class="literal">sort()</code> needs to know how to decide which elements come first, and which later, so we pass into it a <pn class="emphasis"><em>comparator</em></pn></p> function.<p></p>
+<p style="font-style: italic;">Cuando sortBars() es llamado, primero seleccione de nuevo todas las <code class="literal">rect</code>s. A continuación, utilizamos un método para ordenar sort() a la mano de D3, que reordena los elementos basados en sus valores de datos consolidados. sort() tiene que saber cómo decidir qué elementos son los que van primero, y cuales más tarde, por lo que pasamos en ella una función de comparación.</p>
+
+<p id="unlike_our_anon">Unlike our anonymous functions so far, the comparator doesn’t take <code class="literal">d</code> (the current datum) or <code class="literal">i</code> (the current index). Instead, it is passed <pn class="emphasis"><em>two values</em></pn>, <code class="literal">a</code> and <code class="literal">b</code>, which represent the data values of two different elements. (You could name them anything else; <code class="literal">a</code> and <code class="literal">b</code> are just the convention.) The comparator will be called on every pair of elements in our array, comparing <code class="literal">a</code> to <code class="literal">b</code>, until, in the end, all the array elements are sorted per whatever rules we specify.</p>
+<p style="font-style: italic;">A diferencia de nuestras funciones anónimas hasta el momento, el comparador no toma el <code class="literal">d</code>  (punto de referencia actual) o <code class="literal">i</code> (el índice actual). En su lugar, se pasa dos valores, <code class="literal">a</code>  y <code class="literal">b</code> , que representan los valores de los datos de dos elementos diferentes. (Se les puede nombrar a cualquier otra cosa;. <code class="literal">a</code>  y <code class="literal">b</code>  son sólo la convención), el comparador se llamará en cada par de elementos en nuestra array, la comparación de <code class="literal">a</code>  a <code class="literal">b</code> , hasta que, al final, todos los elementos de la array se ordenan por lo reglas que especifique.</p>
+<p id="we_specify_how_">We specify <pn class="emphasis"><em>how </em></pn><code class="literal">a</code> and <code class="literal">b</code> should be compared within the comparator. Thankfully, D3 also provides a handful of comparison functions that pre us from writing more JavaScript. Here, we use <code class="literal">d3.ascending()</code>, into which both <code class="literal">a</code> and <code class="literal">b</code> are passed. Whichever one is bigger comes out the winner. And <code class="literal">sort()</code> loops through all the data values in this way until it has all the elements, er, sorted out. (Note that <pn class="keep-together"><code class="literal">d3.ascending</code>  works well in this case, because our values are numbers. Comparing strings of text is a whole other can of worms.)</pn></p><p></p>
+<p style="font-style: italic;">Se especifica cómo <code class="literal">a</code> y <code class="literal">b</code> debe compararse dentro del comparador. Afortunadamente, D3 también proporciona un puñado de funciones de comparación que nos ahorrará tiempo de escribir más de JavaScript. Aquí, nosotros usamos <code class="literal">d3.ascending()</code>, en la que se transmiten tanto <code class="literal">a()</code> como <code class="literal">b</code>. Cualquiera uno es más grande sale el ganador. Y <code class="literal">sort()</code> recorre todos los valores de datos de esta manera hasta que tenga todos los elementos, er, lo solucionaron. (Tenga en cuenta que <code class="literal">d3.ascending()</code> funciona bien en este caso, porque nuestros valores son números. La comparación de cadenas de texto es un conjunto la otra lata de gusanos.)</p>
+<p id="finally_our_ne">Finally, our new order in place, we initiate a transition, set a duration of one second, and then calculate the new <code class="literal">x</code> position for each <code class="literal">rect</code>. (This <code class="literal">attr</code> code is just copied from when we created the <code class="literal">rect</code>s initially.)</p>
+<p style="font-style: italic;">Por último, nuestro nuevo orden en el lugar, iniciar una transición, establece una duración de un segundo, y luego calcular la nueva posición<code class="literal">x</code>para cada <code class="literal">rect</code>. (Este código <code class="literal">attr</code> se acaba de copiar desde el momento en que creamos las <code class="literal">rect</code>s inicialmente.)</p>
+
+<p id="this_works_swim">This works swimmingly, except for two catches.</p>
+<p style="font-style: italic;">Esto funciona a las mil maravillas, a excepción de dos capturas.</p>
+
+
+
+
+<p id="first_youll_n">First, you’ll notice that we haven’t accounted for the value labels yet, so they didn’t slide into place along with the bars. (I leave that to you as an exercise.)</p>
+<p style="font-style: italic;">En primer lugar, se dará cuenta de que no hemos contabilizado las etiquetas de valor, sin embargo, por lo que no se deslizó en su lugar, junto con las barras. (Lo dejo a usted como un ejercicio.)</p>
+
+<p id="second_you_mig">Second, you might observe that if you mouse over some bars <pn class="emphasis"><em>while</em></pn> the <pn class="keep-together">transition is occurring, those bars don’t fall properly into place (see <a class="xref" href="http://chimera.labs.oreilly.com/books/1230000000345/ch10.html#interrupted" title="Figure 10-6. Transitions, interrupted">Figure 10-6</a>).<a id="id552249" class="indexterm" href=""></a></pn></p>
+<p style="font-style: italic;">En segundo lugar, es posible observar que si pasa el ratón sobre algunas barras, mientras que la transición se está produciendo, esas barras no caen adecuadamente en su lugar (ver Figura 10-6 ).</p>
+
+<div class="figure" id="interrupted2"> <div class="figure-contents"><div class="mediaobject"><img alt="Imagen" src="../Fig106.png"/></div></div><p>Figure 10-6. Transitions, interrupted</p></div>
+
+<p id="yeeesh_that_do">Yeeesh, that doesn’t look good.</p>
+<p style="font-style: italic;">Yeeesh, que no se ve bien.</p>
+<p id="remember_from_t">Remember from Chapter 9 that newer transitions interrupt and override older <pn class="keep-together">transitions</pn>. Clicking the bars initiates one transition. Immediately mousing over a bar interrupts that initial transition in order to run the <code class="literal">mouseover</code> highlight transition we specified earlier. The end result is that those moused-over bars never make it to their final destinations.</p><p></p>
+<p style="font-style: italic;">Recuerde del Capítulo 9 que las nuevas transiciones interrumpen y anulan las transiciones anteriores. Al hacer clic en las barras inicia una transición. Inmediatamente pasa el ratón por encima de una barra que interrumpe la transición inicial con el fin de ejecutar la transición por encima del ratón más destacada que ha especificado anteriormente. El resultado final es que esas barras moused-over que nunca llegan a sus destinos finales.</p>
+
+
+<p id="but_dont_worry">But don’t worry. This example is just a good argument for keeping hover effects in CSS, while letting D3 and JavaScript manage the more visually intensive actions.</p>
+<p style="font-style: italic;">Pero no se preocupe. Este ejemplo es sólo un buen argumento para mantener efectos de activación en CSS, mientras que deja a D3 y JavaScript gestionar las acciones visualmente más intensivas.</p>
+
+<p id="in__sort_hove">In <pn class="emphasis"><em>08_sort_hover.html</em></pn>, I’ve restored the CSS-only highlight and removed the <code class="literal">mouseover</code> and <code class="literal">mouseout</code> event listeners, so this transition conflict no longer occurs. (The only downside is we no longer have those smooth orange-to-blue fades.)</p>
+<p style="font-style: italic;">En 08_sort_hover.html, he restaurado el punto culminante de sólo CSS y quité el <code class="literal">mouseover</code> y detectores de eventos <code class="literal">mouseout</code>, por lo que este conflicto de transición ya no se produce. (El único inconveniente es que ya no tenemos esos fundidos suaves-naranja a azul.)</p>
+
+<p id="so_far_this_sort">So far, this sort only goes one direction. Let’s revise this so a second click triggers a re-sort, placing the bars in descending order.</p>
+<p style="font-style: italic;">Hasta ahora, este tipo sólo va en una dirección. Vamos a revisar este modo con un segundo clic que desencadena una nueva situación, la colocación de las barras en orden descendente.</p>
+
+
+<p id="to_remember_the">To remember the current state of the chart, we’ll need a Boolean variable:</p>
+<p id="so_far_this_sor">Para recordar el estado actual de la tabla, necesitaremos una variable booleana:</p>
+<pre class="programlisting" data-language="javascript" id="var_sortorder_">var sortOrder = false;</pre>
+
+
+
+ <p id="then_in_the_so">Then, in the <code class="literal">sortBars()</code> function, we should flip the value of <code class="literal">sortOrder</code>, so if it starts out <code class="literal">true</code>, it is changed to <code class="literal">false</code>, and vice versa:</p>
+
+<p style="font-style: italic;">Luego, en la función <code class="literal">sortBars()</code> , hay que darle la vuelta al valor de <code class="literal">sortOrder()</code>, por lo que si se empieza afuera <code class="literal">true</code>, se cambia a <code class="literal">false</code>, y viceversa:</p><pre class="programlisting" data-language="javascript" id="var_sortbars___id2">var sortBars = function() {
+
+        //Flip value of sortOrder
+        sortOrder = !sortOrder;
+
+        …</pre>
+        
+          <p id="down_in_the_com">Down in the comparator function, we can add a bit of logic to say if sortOrder is true, then go ahead and sort the bars in ascending order. Otherwise, use descending order:</p>
+          <p style="font-style: italic;">Abajo, en la función de comparación, podemos añadir un poco de lógica para decir si sortOrder es cierto, entonces adelante y ordenar las barras en orden ascendente. De lo contrario, utilice orden descendente:</p>
+<pre class="programlisting" data-language="javascript" id="svgselectall_id13">        svg.selectAll("rect")
+  .sort(function(a, b) {
+        if (sortOrder) {
+          return d3.ascending(a, b);
+        } else {
+          return d3.descending(a, b);
+                        }
+        })
+        …</pre> 
+                
+<p id="give_that_a_sho">Give that a shot in <pn class="emphasis"><em>09_resort.html</em></pn>. Now each time you click, the sort order reverses, as shown in <a class="xref" href="http://chimera.labs.oreilly.com/books/1230000000345/ch10.html#second-sort" title="Figure 10-7. The second sort, now in descending order">Figure 10-7</a>.</p><p></p>
+                <p style="font-style: italic;">Dar que un tiro en 09_resort.html. Ahora, cada vez que haga clic, se invierte el orden de clasificación, como se muestra en la Figura 10-7.</p>
+
+                
+                <div class="figure" id="second-sortdsa"> <div class="figure-contents"><div class="mediaobject"><img alt="Imagen" src="../Fig107.png"/></div></div><p>Figure 10-7. The second sort, now in descending order</p></div>
+                <p style="font-style: italic;">Figura 10-7. El segundo tipo, ahora en orden descendente</p>
+                
+                <p id="one_more_thing__id2">One more thing would make this really nice: a per-element delay. (Remember that whole “object constancy” thing?)</p>
+                  <p style="font-style: italic;">Una cosa más que hacen de este muy agradable: un retraso por elemento. (Recuerde que todo el asunto "constancia de los objetos"?)</p>
+                <p id="as_you_know_to">As you know, to do that, we just add a simple <code class="literal">delay()</code> statement after <code class="literal">transition()</code>:</p>
+                    <p style="font-style: italic;">Como ya sabes, para hacer eso, simplemente añadimos un simple delay() después de la transition():</p>
+
+              
+                <pre class="programlisting" data-language="javascript" id="transition_id5">…
+.transition()
+.delay(function(d, i) {
+        return i * 50;
+})
+.duration(1000)
+…</pre>
+
+ <p id="now_take_a_look">Now take a look at <pn class="emphasis"><em>10_delay.html</em></pn>, in which you can easily follow individual bars with your eyes as they move left and right during each sort.<a id="id552953" class="indexterm" href=""></a></p>
+
+
+<p style="font-style: italic;">Ahora echa un vistazo a 10_delay.html, en el que se puede seguir fácilmente las barras individuales con sus ojos, ya que mover a la izquierda y la derecha durante cada especie.</p>
+
+    <p>Exercise</p>
+
+    <p>Add JS code in the panel at left so that the labels sort along with the bars, and check the results in the output panel at right.</p>
+    <p style="font-style: italic;">Añadir un código JS en el panel de la izquierda de manera que las etiquetas de clase junto con las barras, y comprobar los resultados en el panel de salida a la derecha.
+</p>
+
+<div class="titlepage"><div><h1 class="title">Tooltips</h1></div></div>
+<div class="titlepage"><div><h1 class="title">Información sobre herramientas</h1></div></div>
+
+    <p>In interactive visualizations, tooltips are small overlays that present data values.  In many cases, it’s not necessary to label every individual data value in the default view, but that level of detail should still be accessible to users.  That’s where tooltips come in.</p>
+    
+    <p style="font-style: italic;">En visualizaciones interactivas, información sobre herramientas son pequeñas superposiciones que presentan valores de datos. En muchos casos, no es necesario etiquetar todos los valores de datos individuales en la vista predeterminada, pero ese nivel de detalle aún debe ser accesible a los usuarios. Ahí es donde entran en la información de herramientas.</p>
+
+
+<p>In this section, I present three different methods to constructing tooltips with D3, ranging from the simplest to the most complex.</p>
+    <p style="font-style: italic;">En esta sección, presento tres métodos diferentes para la construcción de la información de herramientas con D3, que van desde los más simples a los más complejos.</p>
+<div class="titlepage"><div><h3 class="title">Default Browser Tooltips</h3></div></div>
+  <div class="titlepage"><div><h3 class="title">Información sobre herramientas poe defecto del Browser</h3></div></div>
+<p>These should be your first stop.  A quick-and-dirty, functional but not pretty option, default browser tooltips are usually those ugly yellow boxes you see floating over content when you hold your mouse still for too long.  These are very easy to make, and the browser manages the placements for you, but you have zero control over how they look—that’s also set by the browser.</p>
+    <p style="font-style: italic;">Estos deben ser su primera parada. Una opción rápido y sucio, funcional pero no bastante, la información de herramientas del navegador por defecto suelen ser los cuadros de color amarillo feo que ves flotando sobre el contenido cuando se mantiene el puntero del ratón inmóvil durante demasiado tiempo. Estos son muy fáciles de hacer, y el navegador gestiona las colocaciones para usted, pero usted tiene cero control sobre cómo se ven, eso es también establecen por el navegador.</p>
+<p>Figure 10-8 shows our bar chart, with value labels removed, and default browser tooltips implemented.  The tooltips show up after hovering the mouse over any bar for a few seconds.</p>
+    <p style="font-style: italic;">La figura 10-8 muestra nuestra gráfico de barras, con las etiquetas de valor retirados, y la información de herramientas del navegador por defecto en práctica. La información sobre herramientas aparece después de pasar el mouse sobre cualquier barra durante unos segundos.</p>
+
+<div class="figure" id="second-sortfgh"> <div class="figure-contents"><div class="mediaobject"><img alt="Imagen" src="../Fig107.png"/></div></div></div>
+
+
+<p><strong>Figure 10-8 A ridiculously simple default browser tooltip, as seen in Safari"</strong></p>
+<p style="font-style: italic;">Figura 10-8 Una información sobre herramientas ridículamente simple navegador por defecto, como se ve en Safari "</p>
+
+<p>See <pn class="emphasis"><em>11_browser_tooltip.html</em></pn> for the code and a demo.  To make these tooltips, simply inject a <code class="literal">title</code> element into whatever element should have the tooltip applied.  For example, after we create all those <code class="literal">rects</code>:</p>
+<p style="font-style: italic;">Ver 11_browser_tooltip.html para el código y una demo. Para hacer a estas sugerencias, simplemente inyectar un elemento de título en cualquier elemento debería haber aplicado la información de herramientas. Por ejemplo, después de crear todas esas rects:
+</p>
+
+<pre class="programlisting" data-language="javascript" id="transition_id11">svg.selectAll("rect")
+   .data(dataset)
+   .enter()
+   .append("rect")
+   …</pre>
+
+<p>we can just tack on to the end of that chain:</p>
+<p style="font-style: italic;">sólo podemos añadir al final de la cadena:</p>
+<pre class="programlisting" data-language="javascript" id="transition_id12">   .append("title")
+   .text(function(d) {
+         return d;
+   });</pre>
+   
+
+<p><code class="literal">append()</code> creates the new <code class="literal">title</code> element, and then <code class="literal">text()</code> sets its content to <code class="literal">d</code>, the bound value.</p>
+<p>We could make this text a little less pre by prefixing it with something (see Figure 10-9): </p>
+<p style="font-style: italic;">Podríamos hacer este texto un poco menos de pre prefijándolo con algo (ver Figura 10-9)</p>
+<pre class="programlisting" data-language="javascript" id="transition_id13">   .append("title")
+   .text(function(d) {
+         return "This value is " + d;
+   });</pre>
+<p style="font-style: italic;">append() crea un nuevo elemento de título y de texto() establece su contenido a D, el valor límite.
+Podríamos hacer este texto un poco menos de pre prefijándolo con algo (ver Figura 10-9):
+</p>
+
+<div class="figure" id="second-sortdjkl"> <div class="figure-contents"><div class="mediaobjectoo"><img alt="Imagen" src="../Fig107.png"/></div></div></div>
+
+<p>See <pn class="emphasis"><em>12_browser_tooltip_text.html</em></pn>for that code.</p>
+<p style="font-style: italic;">Ver 12_browser_tooltip_text.html para ese código.</p>
+<div class="titlepage"><div><h3 class="title">SVG Element Tooltips</h3></div></div>
+<div class="titlepage"><div><h3 class="title">SVG Elemento de información sobre herramientas</h3></div></div>
+<p>For more visual control over your tooltips, code them as SVG elements.</p>
+<p style="font-style: italic;">Para un control más visual sobre su información de herramientas, codificarlos como elementos SVG.</p>
+<p>As usual, there are many different approaches you could take.  I’ll suggest adding event listeners, so on each <code class="literal">mouseover</code>, a new value label is created, and on <code class="literal">mouseout</code> it is destroyed.  (Another idea would be to pregenerate all the labels, but then just show or hide them based on mouse hover status.  Or just stick with one label, but show or hide it and change its position as needed.)</p>
+<p style="font-style: italic;">Como de costumbre, hay muchos enfoques diferentes que se pueden tomar. Voy a sugerir la adición de detectores de eventos, por lo que en cada uno encima del ratón, una nueva etiqueta de valor se crea, y al desplazar el ratón que se destruye. (Otra idea sería pregenerate todas las etiquetas, pero entonces sólo mostrar u ocultar ellas basadas en el estado estacionario del ratón. O simplemente seguir con una etiqueta, sino mostrar u ocultar y cambiar su posición según sea necesario.)</p>
+<p>Back to the bars we go.  We’ll add back in a <code class="literal">mouseover</code> event listener, in which we first get the <code class="literal">x</code> and <code class="literal">y</code> values for the current element (<code class="literal">this</code>, remember?).  We’ll need this information to know where to place the new tooltip, so it appears nicely “on top of” the bar that’s triggering the rollover.</p>
+<p style="font-style: italic;">Volver a las barras que vamos. Vamos a añadir de nuevo en un detector de eventos por encima del ratón, en el que la primera obtenemos valores<code class="literal">x</code>e y para el elemento actual (esto, recuerda?). Vamos a necesitar esta información para saber dónde colocar la nueva pista, por lo que parece muy bien "en la parte superior de" la barra que está provocando el vuelco del vehículo.</p>
+<p>When we retrieve those values, we wrap them in <code class="literal">parseFloat()</code>, which is a JavaScript function for “Hey, even if this information is a string of text, please convert it to a floating point number for me.”</p>
+<p style="font-style: italic;">Cuando recuperamos esos valores, nos envuelven en parseFloat(), que es una función de JavaScript de "Hey, incluso si esta información es una cadena de texto, por favor, convertirlo a un número de coma flotante para mí".</p>
+<pre class="programlisting" data-language="javascript" id="transition_id14">.on("mouseover", function(d) {
+
+//Get this bar's x/y values, then augment for the tooltip
+var xPosition = parseFloat(d3.select(this).attr("x")) + xScale.rangeBand() / 2;
+var yPosition = parseFloat(d3.select(this).attr("y")) + 14;</pre>
+
+<p>That’s the hard part.  Now all we do is create the tooltip as a simple <code class="literal">text</code> element, in this case, but of course you could add a background <code class="literal">rect</code> or do anything else here for visual effect:</p>
+<p style="font-style: italic;">Esa es la parte difícil. Ahora todo lo que hacemos es crear la descripción como un elemento de texto simple, en este caso, pero, por supuesto, se podría añadir un rect de fondo o hacer cualquier otra cosa aquí para el efecto visual:</p>
+<pre class="programlisting" data-language="javascript" id="transition_id15">//Create the tooltip label
+svg.append("text")
+  .attr("id", "tooltip")
+  .attr("x", xPosition)
+  .attr("y", yPosition)
+  .attr("text-anchor", "middle")
+  .attr("font-family", "sans-serif")
+  .attr("font-size", "11px")
+  .attr("font-weight", "bold")
+  .attr("fill", "black")
+  .text(d);
+
+})</pre>
+<p>Yes, this is based on our earlier value label code, simply adapted slightly.  Note that the <code class="literal">x</code> and <code class="literal">y</code> attributes are set to the new position values we just calculated, and the actual text content of the label is set to <code class="literal">d</code>, the datum passed into the event listener function.</p>
+<p style="font-style: italic;">Sí, esto se basa en nuestro código de etiqueta de valor anterior, sólo tiene que adaptar ligeramente. Tenga en cuenta que la<code class="literal">x</code>y Y. atributos se establecen en los nuevos valores de posición que acaba de calcular, y el contenido de texto real de la etiqueta se establece en d, el dato introducida en la función de detector de eventos.</p>
+<p>Also note that I assigned this next <code class="literal">text</code> element an ID of <code class="literal">tooltip</code>.  This is so we can easily select (and delete!) the element when we’re done with it—on <code class="literal">mouseout</code>:</p>
+<p style="font-style: italic;">También tenga en cuenta que he asignado este elemento siguiente texto una identificación de información sobre herramientas. Esto es por lo que puede seleccionar fácilmente (y borrar!) El elemento cuando hayamos terminado con ella, al desplazar el ratón:
+</p>
+<pre class="programlisting" data-language="javascript" id="transition_id16">.on("mouseout", function() {
+
+//Remove the tooltip
+d3.select("#tooltip").remove();
+
+})</pre>
+<p>Test out the code in 13_svg_tooltip.html.</p>
+<p style="font-style: italic;">Probar el código en 13_svg_tooltip.html.</p>
+<p>As you can see in <pn style="color:#0000ff;">Figure 10-10</pn>, you have much more visual control when using SVG elements as tooltips, but they are a little more time-consuming to set up.  And of course, you can get much fancier than this simple example.</p>
+<p style="font-style: italic;">Como se puede ver en la figura 10-10, usted tiene mucho más control visual al utilizar elementos SVG como información sobre herramientas, pero son un poco más de tiempo para configurar. Y, por supuesto, usted puede conseguir mucho más elegante que este sencillo ejemplo.
+</p>
+<div class="figure" id="second-sortzxc"> <div class="figure-contents"><div class="mediaobject"><img alt="Imagen" src="../Fig107.png"/></div></div></div>
+<p style="font-style: italic;"> El segundo tipo, ahora en orden descendente</p>
+<p>Figure 10-10. An SVG element tooltip</p>
+
+<div class="titlepage"><div><h3 class="title">HTML div Tooltips</h3></div></div>
+<p>Figure 10-10. An SVG element tooltip</p>
+<p>A similar approach can be used with HTML <code class="literal">div</code> elements as tooltips.  You might consider using a <code class="literal">div</code> when:</p>
+<ul>
+<li>You want to achieve a visual effect that isn’t possible or well-supported with SVG (such as CSS drop shadows)</li>
+<li>Quiere lograr un efecto visual que no es posible o bien apoyado con SVG (como sombras CSS)
+</li><li>You need the tooltips to extend beyond the frame of the SVG image</li>
+<li>Es necesaria la información sobre herramientas para extenderse más allá del marco de la imagen SVG
+</li>
+</ul>
+
+
+<p>See Figures <pn style="color:#0000ff;">10-11</pn> and <pn style="color:#0000ff;">10-12</pn> for examples. </p>
+
+<div class="figure" id="second-sort"> <div class="figure-contents"><div class="mediaobject"><img alt="Imagen" src="../Fig107.png"/></div></div></div>
+<p>Figure 10-11. An HTML div tooltip</p>
+<p style="font-style: italic;"></p>
+
+<div class="figure" id="second-sortvbn"> <div class="figure-contents"><div class="mediaobject"><img alt="Imagen" src="../Fig107.png"/></div></div></div>
+<p>Figure 10-12. An HTML div tooltip, overlapping the bounds of the SVG image beneath</p>
+
+<p>Again, there are many ways to do this, but I like to make a hidden <code class="literal">div</code> in my HTML that gets populated with the data value, and is then unhidden when triggered.  You can follow along with the final code in <pn class="emphasis"><em>14_div_tooltip.html</em></pn></p>.
+<p style="font-style: italic;">Una vez más, hay muchas maneras de hacer esto, pero me gusta hacer un div oculto en mi HTML que se rellena con el valor de los datos, y se activa no-oculto cuando es disparado. Puede seguir el código final en 14_div_tooltip.html</p>
+<p>The <code class="literal">div</code> itself could be created dynamically with D3, but I like to just type it in by hand:</p>
+
+<p style="font-style: italic;">El div se podría crear dinámicamente con D3, pero me gusta simplemente escribirlo a mano:
+</p>
+<pre class="programlisting" data-language="javascript" id="transition_id51"><p>&lt;div id ="tooltip" class="hidden"&gt;</p>
+<p>&lt;p&gt;&lt;strong&gt;Important Label Heading&lt;strong&gt;&lt;p&gt;</p>
+<p>&lt;p&gt;&lt;span id="value"&gt;100&lt;span&gt;%&lt;p&gt;</p>
+<p>&lt;/div&gt;</p></pre>
+
+<p>Now it’s going to need some special CSS styling rules:</p>
+<p style="font-style: italic;">Ahora se van a necesitar algunas reglas especiales de estilo CSS:</p>
+<pre class="programlisting" data-language="javascript" id="transition_id21">#tooltip {
+        position: absolute;
+        width: 200px;
+        height: auto;
+        padding: 10px;
+        background-color: white;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+}
+
+#tooltip.hidden {
+        display: none;
+}
+
+#tooltip p {
+        margin: 0;
+        font-family: sans-serif;
+        font-size: 16px;
+        line-height: 20px;
+}</pre>
+<p>Note in particular that its <code class="literal">position</code> is <code class="literal">absolute</code>, so we can control exactly where it should appear on the page.  I’ve also added some fancy rounded corners and a drop shadow.  Plus, <code class="literal">pointer-events: none</code> ensures that mousing over the tooltip itself won’t trigger a <code class="literal">mouseout</code> event on the bars, thereby hiding the tooltip.  (Try the code without this line, and you’ll see what I mean.)  Lastly, when the tooltip is given a class of <pn class="keep-together"><code class="literal">hidden</code></pn>, it is not displayed.</p>
+<p style="font-style: italic;">Tenga en cuenta, en particular, que su posición es absoluta, por lo que podemos controlar exactamente donde debe aparecer en la página. También he añadido algunas esquinas redondeadas de lujo y una gota de sombra. Además, puntero-eventos: Ninguno garantiza que pasar el ratón sobre la propia información de herramienta no se disparará un evento mouseout en las barras, ocultando de esta manera la información sobre herramientas. (Prueba el código sin esta línea, y verá lo que quiero decir.) Por último, cuando la descripción se da una clase oculta, que no se muestra.</p>
+
+<p>I made some modifications to the <code class="literal">mouseover</code> function, so the <code class="literal">div</code> is roughly centered vertically against its triggering bar.  The revised code now also sets the tooltip’s <code class="literal">left</code> and <code class="literal">top</code> position per CSS layout requirements, sets the text content of the <code class="literal">#value</code> pn to <code class="literal">d</code>, and then—now that everything is in place—removes the <code class="literal">hidden</code> class, making the tooltip visible:</p>
+<p style="font-style: italic;">Hice algunas modificaciones a la función <code class="literal">mouseover</code> , por lo que el div queda aproximadamente centrado verticalmente en la barra de disparo. El código revisado ahora también fija la posición izquierda y superior de la descripción según los requisitos de diseño CSS, establece el contenido del texto del pn <code class="literal">#value</code> a D, y entonces ahora que todo está en su lugar, elimina la clase oculta, por lo que la información de herramientas visibles:
+El ocultamiento de la descripción de mouseout es mucho más fácil; sólo tiene que añadir a la clase oculta:</p>
+<pre class="programlisting" data-language="javascript" id="transition_id22">.on("mouseover", function(d) {
+
+//Get this bar's x/y values, then augment for the tooltip
+var xPosition = parseFloat(d3.select(this).attr("x")) + xScale.rangeBand() / 2;
+var yPosition = parseFloat(d3.select(this).attr("y")) / 2 + h / 2;
+
+//Update the tooltip position and value
+d3.select("#tooltip")
+  .style("left", xPosition + "px")
+  .style("top", yPosition + "px")
+  .select("#value")
+  .text(d);
+
+//Show the tooltip
+d3.select("#tooltip").classed("hidden", false);
+
+})</pre>
+<p>Hiding the tooltip on <code class="literal">mouseout</code> is much easier; simply add on the <code class="literal">hidden</code> class:</p>
+<p style="font-style: italic;">El ocultamiento de la descripción de mouseout es mucho más fácil; sólo tiene que añadir a la clase hidden:</p>
+<pre class="programlisting" data-language="javascript" id="transition_id23">.on("mouseout", function() {
+
+//Hide the tooltip
+d3.select("#tooltip").classed("hidden", true);
+
+})</pre>
+
+
+<p>The layout of this simple example works well, but in a real-world situation, the D3 chart would be just one of many other elements on the page.  As you probably know, perfecting HTML/CSS layouts can be a challenge, and this is the biggest hassle of getting HTML elements to interact properly with an SVG chart.  It can help to put both the tooltip <code class="literal">div</code> and SVG chart within the same enclosing element (like a container <code class="literal">div</code>), so then you only have to worry about relative positions.  <code class="literal">d3.mouse</code> can be used to get mouse coordinates relative to any other element on the page, and can be useful in cases when you need to position non-SVG elements in relationship to the mouse.</p>
+<p style="font-style: italic;">El diseño de este sencillo ejemplo funciona bien, pero en una situación del mundo real, el gráfico D3 sería sólo uno de muchos otros elementos de la página. Como usted probablemente sabe, el perfeccionamiento de los diseños de HTML / CSS puede ser un reto, y esta es la mayor molestia de conseguir elementos HTML para interactuar correctamente con un gráfico SVG. Puede ayudar a poner tanto el div información sobre herramientas y el gráfico SVG dentro de un mismo elemento envolvente (como un contenedor div), por lo que a continuación, sólo tiene que preocuparse por las posiciones relativas. D3.mouse puede ser utilizado para obtener las coordenadas del ratón en relación con cualquier otro elemento en la página, y puede ser útil en casos cuando se necesita para posicionar elementos no SVG en relación con el ratón.</p>
+ <div class="titlepage"><div><h3 class="title">Consideration for Touch Devices</h3></div></div>
+ <div class="titlepage"><div><h3 class="title" style="font-style: italic;">Consideraciones para dispositivos</h3></div></div>
+
+<p>The browsers on most popular touch devices—such as iOS and Android devices—automatically translate touch events into mouse events, for JavaScript purposes.  So a tap on an element is interpreted by the browser as a <code class="literal">click</code> event.  This means that, for the most part, your code that was crafted for mouse interfaces will also work just fine for touch-based interfaces.</p>
+<p style="font-style: italic;">Los navegadores en dispositivos tales táctiles más populares como iOS y Android dispositivos de forma automática se traducen eventos táctiles en eventos de ratón, con fines de JavaScript. Por lo que un toque en un elemento es interpretado por el navegador como un evento de clic. Esto significa que, en su mayor parte, el código que se hace a mano para las interfaces de ratón también funciona muy bien para las interfaces táctiles.</p>
+
+<p>The primary exception to this is multitouch, which is not automagically handled by D3.  There’s no easy answer on how to handle multitouch interactions yet, but D3 <pn class="emphasis"><em>does</em></pn> track the touches for you (although it’s up to you to decide how to use them).  See the API reference for d3.touches</p>
+<p style="font-style: italic;">La excepción principal a esto es multitouch, que no es automágicamente manejado por D3. No hay una respuesta fácil sobre cómo manejar las interacciones multitouch todavía, pero hace a D3 realizar un seguimiento de los detalles para usted (aunque le toca a usted decidir cómo usarlos). Ver la referencia de API para d3.touches</p>
+  <div class=""> <div class="titlepage"><div><h2 class="title">Moving Forward</h2></div></div>
+  <div class=""> <div class="titlepage"><div><h3 class="title" style="font-style: italic;"> Avanzando</h3></div></div>
+
+<p>Congratulations!  You now have all the basics of D3 under your cap.  You are a pro at binding data, generating and styling elements based on that data, implementing scales and drawing axes, and modifying your creations with new data, animated transitions, and interactivity.  What more could you ask for?</p>
+<p style="font-style: italic;">¡Felicitaciones! Ahora tiene todos los elementos básicos de D3 debajo de su casquillo. Usted es un profesional en el enlace de datos, la generación y elementos de diseño sobre la base de esos datos, la aplicación de las escalas y ejes de dibujo, y la modificación de sus creaciones con nuevos datos, transiciones animadas, y la interactividad. ¿Qué más se puede pedir?</p>
+<p>How about layouts and geomaps?  The next two chapters will dive into these more advanced topics, but—be warned—without the same level of detail as the prior chapters.  Now that you know the basics, you don’t need every little thing spelled out. Here we go!</p>
+
+<p style="font-style: italic;">¿Qué hay de layouts y geomaps? Los dos capítulos siguientes se sumerge en estos temas más avanzados, pero te advierto, sin el mismo nivel de detalle que los capítulos anteriores. Ahora que sabes lo básico, no es necesario explicar cada pequeña cosa. ¡Aquí vamos!</p>
+ </div>
+</div>
+</div></div></div></body></html>

@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <link rel="stylesheet" href="../styles/dotepub.css" type="text/css"/>
+  <title>Dotepub.com</title>
+</head>
+
+<body>
+  <h1>Preface</h1>
+
+  <div id="_preface" class="">
+
+    <p id="this_is_a_book_">This is a book about programming data visualizations for nonprogrammers. If you’re an artist or graphic designer with visual skills but no prior experience working with data or code, this book is for you. If you’re a journalist or researcher with lots of data but no prior experience working with visuals or code, this book is for you, too.</p>
+<p style="font-style: italic;">Este es un libro sobre la programación de visualizaciones de datos para los no programadores. Si usted es un artista o diseñador gráfico con habilidades visuales, pero sin experiencia previa de trabajo con datos o código, este libro es para usted. Si usted es un periodista o investigador con una gran cantidad de datos, pero sin experiencia previa de trabajo con efectos visuales o código, este libro también es para usted.</p>
+
+    <p id="This_book_will_introduce">This book will introduce you to D3, a JavaScript-based tool for loading data into a web page and generating visuals from that data. I assume that you have little or no programming experience. Or, perhaps you have programmed before, but D3 and data visualization are bringing you to JavaScript for the first time, and you’ve heard bad things about it. Well, JavaScript <span class="emphasis"><em>is</em></span> a little weird, but it’s not as bad as you’ve heard, and everything is going to be all right. Please sit down and make yourself comfortable.</p>
+<p style="font-style: italic;">Este libro le dará a conocer D3, una herramienta basada en JavaScript para cargar datos en una página web y generar imágenes a partir de esos datos. Asumo que usted tiene poca o ninguna experiencia en programación. O tal vez haya programado antes, pero D3 y la visualización de datos lo están llevando a JavaScript, por primera vez, y ha oído cosas malas sobre él. Bueno, JavaScript es un poco raro, pero no es tan malo como usted ha oído, y todo va a estar bien. Por favor, siéntese y póngase cómodo.</p>
+
+    <p id="this_book_began">This book began as <a class="ulink" href="http://alignedleft.com/tutorials/d3/" target="_top">a series of tutorials</a> posted on my website. At the time (January 2012), there wasn’t much information on D3 available that was accessible to beginners. Very quickly, I was getting hundreds, then thousands of page views a day—evidence that interest in the field generally (and D3 specifically) was growing like gangbusters. If you’ve read the tutorials, portions of the book will feel familiar, but there is a <span class="emphasis"><em>lot</em></span> of new material here, including many more examples, sneaky tips, and warnings of things to avoid. Also, the book contains 78 percent more bad jokes.</p>
+<p style="font-style: italic;">Este libro comenzó como una serie de tutoriales publicados en mi página web. En el momento (enero de 2012), no había mucha información disponible sobre D3 que fuera accesible a los principiantes. Muy rápidamente, estaba recibiendo cientos, entonces miles de visitas al día evidenciando el interés en el tema en general (y específicamente en D3) que estaba creciendo freneticamente. Si usted ha leído los tutoriales, algunas partes del libro le serán familiares, pero hay una gran cantidad de material nuevo aquí, incluyendo muchos más ejemplos, disimulados consejos, y las advertencias de las cosas que debe evitar. Además, el libro contiene un 78 por ciento más de chistes malos.</p>
+
+    <p id="data_visualizat_id1">Data visualization is an interdisciplinary field, which is just one reason it’s impossible to document the breadth of skills needed in a single book. Fortunately, because the field is exploding in popularity, there are many new titles to choose from, each of which complements this one.</p>
+<p style="font-style: italic;">La visualización de datos es un campo interdisciplinario, y esta es una de las razones que hace imposible documentar la amplitud de habilidades necesarias en un solo libro. Afortunadamente, porque el campo está explotando popularidad, hay muchos nuevos títulos para elegir, cada uno de los cuales complementan ésta publicación.</p>
+
+    <p id="pocho">On design process:</p>
+<p style="font-style: italic;">El proceso de diseño:</p>
+    <p id="on_visual_desig">On visual design principles and techniques:</p>
+<p style="font-style: italic;">Los principios y técnicas de diseño visual:</p>
+
+    <p id="on_the_practica">On the practicalities of working with data:</p>
+<p style="font-style: italic;">Los aspectos prácticos del trabajo con datos:</p>
+    <div class="sect1" data-original-filename="0_preface.asciidoc" id="_conventions_used_in_this_book">
+
+      <div class="titlepage">
+
+        <div>
+
+          <h2 class="title">Conventions Used in This Book</h2>
+
+        </div>
+
+      </div>
+
+      <p id="the_following_t">The following typographical conventions are used in this book:</p>
+<p style="font-style: italic;">Las siguientes convenciones tipográficas se utilizan en este libro:</p>
+      <div class="variablelist" id="italic_indicate">
+
+        <dl class="variablelist">
+
+          <dt><span class="term"> <span class="emphasis"><em>Italic</em></span> </span></dt>
+
+          <dd> Indicates new terms, URLs, email addresses, filenames, and file extensions. </dd>
+<dd style="font-style: italic;">Indica nuevos términos, direcciones URL, direcciones de correo electrónico, nombres de archivos y extensiones de archivo.</dd>
+          <dt><span class="term"> <code class="literal">Constant width</code> </span></dt>
+
+        <dd> Used for program listings, as well as within paragraphs to refer to program elements such as variable or function names, databases, data types, environment variables, statements, and keywords. </dd>
+<dd style="font-style: italic;">Es usada para listados de programas, así como dentro de los párrafos para referirse a elementos como variable o nombres de funciones, bases de datos, tipos de datos, variables de entorno, declaraciones, y las palabras clave del programa.</dd>
+        
+          <dt><span class="term"> <span class="strong"><strong><code class="literal">Constant width bold</code></strong></span> </span></dt>
+
+          <dd> Shows commands or other text that should be typed literally by the user. </dd>
+<dd style="font-style: italic;"> Muestran comandos u otro texto que  literalmente deben ser tecleados por el usuario.</dd>
+          <dt><span class="term"> <span class="emphasis"><em><code class="literal">Constant width italic</code></em></span> </span></dt>
+
+          <dd> Shows text that should be replaced with user-supplied values or by values determined by context. </dd>
+          <dd style="font-style: italic;">Muestra texto que debe ser reemplazado con los valores proporcionados por el usuario o por los valores determinados por el contexto.</dd>
+        </dl>
+
+      </div>
+
+      <div class="tip" id="tip">
+
+        <p id="this_icon_signi_id2">This icon signifies a tip, suggestion, or general note.</p>
+        <p> Este icono significa un consejo, sugerencia, o una nota general.</p>
+
+
+      </div>
+
+      <div class="warning" id="warning">
+
+
+       
+        <p id="this_icon_indic_id2">This icon indicates a warning or caution.</p>
+        <p style="font-style: italic;">Este icono indica una advertencia o precaución.</p>
+      </div>
+
+    </div>
+
+    <div class="sect1" data-original-filename="0_preface.asciidoc" id="_using_code_examples">
+
+
+      <p id="this_book_is_he">This book is here to help you get your job done. In general, if this book includes code examples, you may use the code in this book in your programs and documentation. You do not need to contact us for permission unless you’re reproducing a significant portion of the code. For example, writing a program that uses several chunks of code from this book does not require permission. Selling or distributing a CD-ROM of examples from O’Reilly books does require permission. Answering a question by citing this book and quoting example code does not require permission. Incorporating a significant amount of example code from this book into your product’s documentation does require permission.</p>
+<p style="font-style: italic;">Este libro está aquí para ayudarle a hacer su trabajo. En general, si este libro incluye ejemplos de código, puede utilizar el código de este libro en sus programas y documentación. No es necesario ponerse en contacto con nosotros para obtener permiso a menos que esté reproduciendo una parte importante del código. Por ejemplo, escribir un programa que utiliza varios trozos de código de este libro no requiere permiso. Vender o distribuir un CD-ROM de ejemplos de libros de O'Reilly requiere permiso. Responder a una pregunta citando a este libro o código de ejemplo no requiere permiso. La incorporación de una cantidad significativa de ejemplo de código de este libro en la documentación de su producto requiere permiso.</p>
+
+      <p id="we_appreciate_">We appreciate, but do not require, attribution. An attribution usually includes the title, author, publisher, and ISBN. For example: “<span class="emphasis"><em>Interactive Data Visualization for the Web</em></span> by Scott Murray (O’Reilly). Copyright 2013 Scott Murray, 978-1-449-33973-9.”</p>
+<p style="font-style: italic;">Apreciamos, pero no requerimos, atribución. Una atribución por lo general incluye el título, autor, editor, y el ISBN. Por ejemplo: "visualización interactiva de datos para la Web por Scott Murray (O'Reilly). Derechos de autor 2013 Scott Murray, 978-1-449-33973-9 ".</p>
+
+      <p id="if_you_feel_you">If you feel your use of code examples falls outside fair use or the permission given above, feel free to contact us at <code class="email">&lt;<a class="email" href="mailto:permissions@oreilly.com">permissions@oreilly.com</a>&gt;</code>.</p>
+      <p style="font-style: italic;">Si cree que el uso de ejemplos de código cae fuera del uso razonable o el permiso dado anteriormente, no dude en contactarse con nosotros en <code>permissions@oreilly.com.</code></p>
+    </div>
+
+    <div class="sect1" data-original-filename="0_preface.asciidoc" id="list_interactive_examples">
+
+      <div class="titlepage">
+
+        <div>
+
+          <h2 class="title">List of Interactive Examples</h2>
+
+        </div>
+
+      </div>
+
+
+      <p id="the_online_vers">The online version of <span class="emphasis"><em>Interactive Data Visualization for the Web</em></span> includes 44 interactive examples to help teach you how to represent your data on the Web using D3. Here’s a full listing of these examples:</p>
+      <p style="font-style: italic;">La versión en línea de visualización interactiva de datos para la Web incluye 44 ejemplos interactivos para ayudar a enseñar cómo representar los datos en la Web usando D3. Aquí está una lista completa de estos ejemplos:</p>
+    </div>
+    <h4>Chapter 3</h4>
+<p>Try It Now: Modifying CSS Rules</p>
+
+<p>Try It Now: JavaScript Variables in the Console</p>
+
+<p>Try It Now: JavaScript Comparison Operators in the Console</p>
+
+<p>Try It Now: SVG</p>
+
+<h4>Chapter 5</h4>
+<p>Try It Now: Dynamic Paragraphs in D3</p>
+
+<p>Try It Now: Still More Dynamic Paragraphs in D3</p>
+
+<p>Exercise: Dynamically Styled Paragraphs</p>
+
+<h4>Chapter 6</h4>
+<p>Try It Now: Bar Charts in D3</p>
+
+<p>Try It Now: Bar Charts with Random Values</p>
+
+<p>Try It Now: Colorful Data Circles</p>
+
+<p>Try It Now: Bar Heights and Widths</p>
+
+<p>Try It Now: Final Bar Chart</p>
+
+<p>Try It Now: dataset in the Console</p>
+
+<p>Try It Now: Scatterplot</p>
+
+<h4>Chapter 7</h4>
+<p>Try It Now: scale in the Console</p>
+
+<p>Try It Now: Scatterplot Using<code class="literal">x</code>and y Scales</p>
+
+<p>Try It Now: Final Scatterplot</p>
+
+<p>Chapter 8</p>
+<p>Try It Now: Simple, but Ugly Axis</p>
+
+<p>Try It Now: Scatterplot with y Axis</p>
+
+<p>Try It Now: Scatterplot with Random Data</p>
+
+<p>Try It Now: formatAsPercentage in the console</p>
+
+<h4>Chapter 9</h4>
+<p>Try It Now: xScale in the Console</p>
+
+<p>Try It Now: Updated Chart with Correct Colors and Labels</p>
+
+<p>Try It Now: Transition in Action</p>
+
+<p>Try It Now: A Smoother Transition</p>
+
+<p>Try It Now: Different Ease Types</p>
+
+<p>Try It Now: Dynamic, Per-Element Delay Before Transition</p>
+
+<p>Try It Now: Transition with Random Data Applied</p>
+
+<p>Try It Now: Transitioning Points to Randomized Values</p>
+
+<p>Try It Now: Transitioning Points to Randomized Values, Plus Rescaled Axes!</p>
+
+<p>Try It Now: Using each() to Specify Two Transitions in Sequence</p>
+
+<p>Exercise: Add Labels to New Bar Elements</p>
+
+<p>Exercise: Remove Labels for Deleted Bar Elements</p>
+
+<p>Exercise: Remove Labels for Deleted Bar Elements 2</p>
+
+<p>Try It Now: Adding and Removing Values from a Chart</p>
+
+<h4>Chapter 10</h4>
+<p>Try It Now: Adding Transitions with CSS</p>
+
+<p>Try It Now: Smoother Highlight Transitions</p>
+
+<p>Exercise: Sorting and Re-Sorting Visual Elements with Delay</p>
+
+<p>Try It Now: A Browser Default Tooltip</p>
+
+<p>Try It Now: An SVG Element Tooltip</p>
+
+<p>Try It Now: An HTML div Tooltip</p>
+
+<p>Chapter 11</p>
+<p>Try It Now: Pie Chart</p>
+
+<p>Try It Now: Ring Chart</p>
+
+<p>Try It Now: Stacked Bar Chart</p>
+
+<p>Try It Now: Force Layout</p>
+
+    <div class="sect1" data-original-filename="0_preface.asciidoc" id="_safari_books_online">
+
+      <div class="note safaribooksonline" id="safari_books_on_id1">
+
+
+        <p id="safari_books_on_id2"><a class="ulink" href="http://my.safaribooksonline.com/?portal=oreilly" target="_top">Safari Books Online</a> is an on-demand digital library that delivers expert <a class="ulink" href="http://www.safaribooksonline.com/content" target="_top">content</a> in both book and video form from the world’s leading authors in technology and business.</p>
+        <p style="font-style: italic;">Safari Books Online es una biblioteca digital on-demand que ofrece contenido experto tanto en forma de libro y vídeo de los autores más importantes del mundo en tecnología y negocios.</p>
+      </div>
+
+
+      <p id="technology_prof">Technology professionals, software developers, web designers, and business and creative professionals use Safari Books Online as their primary resource for research, problem solving, learning, and certification training.</p>
+      <p style="font-style: italic;">Profesionales de la tecnología, desarrolladores de software, diseñadores web, y profesionales de negocios y creativos utilizan Safari Books Online como su principal recurso para la investigación, resolución de problemas, el aprendizaje y la formación para la certificación.</p>
+      <p id="safari_books_on_id3">Safari Books Online offers a range of <a class="ulink" href="http://www.safaribooksonline.com/subscriptions" target="_top">product mixes</a> and pricing programs for <a class="ulink" href="http://www.safaribooksonline.com/organizations-teams" target="_top">organizations</a>, <a class="ulink" href="http://www.safaribooksonline.com/government" target="_top">government agencies</a>, and <a class="ulink" href="http://www.safaribooksonline.com/individuals" target="_top">individuals</a>. Subscribers have access to thousands of books, training videos, and prepublication manuscripts in one fully searchable database from publishers like O’Reilly Media, Prentice Hall Professional, Addison-Wesley Professional, Microsoft Press, Sams, Que, Peachpit Press, Focal Press, Cisco Press, John Wiley &amp; Sons, Syngress, Morgan Kaufmann, IBM Redbooks, Packt, Adobe Press, FT Press, Apress, Manning, New Riders, McGraw-Hill, Jones &amp; Bartlett, Course Technology, and dozens <a class="ulink" href="http://www.safaribooksonline.com/publishers" target="_top">more</a>. For more information about Safari Books Online, please visit us <a class="ulink" href="http://www.safaribooksonline.com/" target="_top">online</a>.</p>
+      <p style="font-style: italic;">Safari Books Online ofrece una gama de combinaciones de productos y programas de precios para las organizaciones, agencias gubernamentales, e individuos. Los suscriptores tienen acceso a miles de libros, videos de entrenamiento, y los manuscritos originales, en una base de datos completa de búsqueda de editores como O’Reilly Media, Prentice Hall Professional, Addison-Wesley Professional, Microsoft Press, Sams, Que, Peachpit Press, Focal Press, Cisco Press, John Wiley &amp; Sons, Syngress, Morgan Kaufmann, IBM Redbooks, Packt, Adobe Press, FT Press, Apress, Manning, New Riders, McGraw-Hill, Jones &amp; Bartlett, Course Technology, y docenas más. Para obtener más información sobre Safari Books Online, por favor visite nuestro sitio Web.</p>
+    </div>
+
+    <div class="sect1" data-original-filename="0_preface.asciidoc" id="_acknowledgments">
+
+      <p id="my_name_may_be_">My name may be on the cover, but as an author, I feel as though I am merely funneling the wisdom of hundreds of other brilliant minds onto the page.</p>
+<p style="font-style: italic;">Mi nombre puede estar en la portada, pero como autor, me siento como si me limitara a canalizar la sabiduría de cientos de otras mentes brillantes en la página.</p>
+      <p id="first_and_forem">First and foremost, I must thank my wife Nora, not least for being the first to say “Hey, you should turn those tutorials into a book.” Without her support and encouragement, this project never would have happened.</p>
+<p style="font-style: italic;">En primer lugar, debo agradecer a mi esposa Nora, no menos importante por ser la primera en decir "Hey, vos debes convertir esos tutoriales en un libro". Sin su apoyo y aliento, este proyecto nunca habría sucedido.</p>
+      
+      <p id="thanks_also_to_">Thanks also to <a class="ulink" href="http://wehavenoart.net/" target="_top">Rosten Woo</a>, with whom I collaborated on my first D3 project, for reaching out and giving me a reason to finally dig into this new tool. Thanks to <a class="ulink" href="http://golike.com/" target="_top">Joe Golike</a> for several early D3 debugging sessions around that time, and to <a class="ulink" href="http://www.datatelling.com/" target="_top">Jen Lowe</a> and <a class="ulink" href="http://postarchitectural.com/" target="_top">Sha Hwang</a> for their reviews and feedback on the initial tutorials.</p>
+<p style="font-style: italic;">Gracias también a Rosten Woo, con quien colaboré en mi primer proyecto D3, por ayudarme y darme una razón para profundizar, finalmente, en esta nueva herramienta. Gracias a Joe Golike por varias primeras sesiones de depuración D3 alrededor de ese tiempo, y a Jen Lowe y Sha Hwang por sus comentarios y observaciones sobre los tutoriales iniciales.</p>
+      
+      <p id="i_am_extremely_">I am extremely grateful to <a class="ulink" href="http://reas.com/" target="_top">Casey Reas</a>, <a class="ulink" href="http://www.shiffman.net/" target="_top">Dan Shiffman</a>, <a class="ulink" href="http://thefactoryfactory.com/" target="_top">Joshua Noble</a>, and <a class="ulink" href="http://complexdiagrams.com/" target="_top">Noah Iliinsky</a>—not just for offering advice on the book-creation process, but also for their groundbreaking work in the spheres of art, design, code, and data. Their careers have greatly influenced my own.</p>
+     
+<p style="font-style: italic;">Estoy muy agradecido a Casey Reas, Dan Shiffman, Joshua Noble, y Noah Iliinsky, no sólo por ofrecer asesoramiento sobre el proceso de creación de libros, sino también por su trabajo pionero en las esferas del arte, el diseño, el código y los datos. Sus carreras han influido mucho en la mía.</p>
+      <p id="in_that_vein_i">In that vein, I should also thank Jan Kubasiewicz at MassArt’s <a class="ulink" href="http://www.dynamicmediainstitute.org/" target="_top">Dynamic Media Institute</a>. Back in 2007, Jan encouraged me to check out something called <a class="ulink" href="http://processing.org/" target="_top">Processing</a>, which eventually led me to a whole new career in code-driven arts, data visualization, and now this book.</p>
+<p style="font-style: italic;">En ese orden de ideas, también mis gracias a Jan Kubasiewicz en el Instituto de Medios de Comunicación Dinámica de Massart. En 2007, Jan me animó a que echara un vistazo a algo que se llama procesamiento, lo que finalmente me llevó a una nueva carrera en las artes basada en códigos de visualización de datos, y ahora este libro.</p>
+
+      <p id="it_has_been_a_p">It has been a pleasure working with my editor, Meghan Blanchette, and everyone else on the team at O’Reilly. Thanks to Meghan and her crew for shepherding this project all the way through, from concept to an actual, physical, chunk of paper with words and strange diagrams printed on it.</p>
+<p style="font-style: italic;">Ha sido un placer trabajar con mi editor, Meghan Blanchette, y todos los demás en el equipo de O'Reilly. Gracias a Meghan y su tripulación por conducir este proyecto a todo lo largo, desde el concepto a una transferencia real, física, de un trozo de papel con palabras extrañas y diagramas impresos en él.</p>
+
+      <p id="special_thanks_">Special thanks to <a class="ulink" href="http://bost.ocks.org/mike/" target="_top">Mike Bostock</a>, <a class="ulink" href="http://www.datatelling.com/" target="_top">Jen Lowe</a>, <a class="ulink" href="http://anna.ps/" target="_top">Anna Powell-Smith</a>, and <a class="ulink" href="http://codenoobcentral.tumblr.com/" target="_top">Daisy Vincent</a> for agreeing to tech review the book and sending incredibly valuable feedback. The final product is vastly improved, thanks to their input. That said, if you find an error or confusing code example, it is because they begged me to rewrite it, and I steadfastly refused.</p>
+<p style="font-style: italic;">Un agradecimiento especial a Mike Bostock, Jen Lowe, Anna Powell-Smith, y Daisy Vicente por aceptar la revisión tecnología del libro y el envío de muy valiosa retroalimentación. El producto final es mucho mayor, gracias a su ingreso. Dicho esto, si usted encuentra un error o un ejemplo de código confuso, es porque me pidieron que volviera a escribirlo, y me negué rotundamente.</p>
+
+      <p id="mike_gets_an_ex">Mike gets an extra-special thanks for developing D3 in the first place. Without this elegant piece of software, the community of data visualization practitioners wouldn’t be quite as vibrant, enthusiastic, and standards-compliant as it is today.</p>
+<p style="font-style: italic;">Mike recibe un agradecimiento muy especial por el desarrollo de D3 en primer lugar. Sin esta elegante pieza de software, la comunidad de profesionales de visualización de datos no sería tan vibrante, entusiasta, y compatible con los estándares como lo es hoy.</p>
+
+      <p id="speaking_of_com">Speaking of community, many other people—including <a class="ulink" href="http://www.jeromecukier.net/" target="_top">Jérôme Cukier</a>, <a class="ulink" href="http://www.ghostweather.com/" target="_top">Lynn Cherny</a>, <a class="ulink" href="http://www.jasondavies.com/" target="_top">Jason Davies</a>, <a class="ulink" href="http://hci.stanford.edu/jheer/" target="_top">Jeff Heer</a>, <a class="ulink" href="http://moebio.com/" target="_top">Santiago Ortiz</a>, <a class="ulink" href="http://periscopic.com/" target="_top">Kim Rees</a>, <a class="ulink" href="http://moritz.stefaner.eu/" target="_top">Moritz Stefaner</a>, <a class="ulink" href="http://tulpinteractive.com/" target="_top">Jan Willem Tulp</a>, and others who I have forgotten to mention—on the D3 list and in nearby orbits have also directly contributed to my thinking and process. Thank you for your support. I am lucky to get to collaborate with so many talented people.</p>
+<p style="font-style: italic;">Hablando de la comunidad, muchas otras personas, incluyendo a Jérôme Cukier, Lynn Cherny, Jason Davies, Jeff Heer, Santiago Ortiz, Kim Rees, Moritz Stefaner, Jan Willem Tulp, y otros que he olvidado mencionar, están en la lista D3 y en las órbitas inmediatas y también han contribuido directamente en mi pensamiento y proceso. Gracias por su apoyo. Tengo la suerte de llegar a colaborar con tanta gente con talento.</p>
+
+    </div>
+
+  </div>
+
+
+</body>
+
+</html>
